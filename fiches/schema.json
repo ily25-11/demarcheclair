@@ -1,0 +1,54 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Fiche démarche DémarcheClair",
+  "type": "object",
+  "required": ["slug", "demarche", "scenario", "langue", "titre", "pieces", "etapes", "sources", "date_derniere_verification", "statut", "version"],
+  "properties": {
+    "slug":        { "type": "string", "description": "Identifiant unique, ex: cnie-renouvellement" },
+    "demarche":    { "type": "string", "description": "Démarche mère, ex: cnie" },
+    "scenario":    { "enum": ["premiere-demande", "renouvellement", "perte-vol", "mineur", "mre-consulat", "faq"] },
+    "langue":      { "enum": ["fr", "ar"] },
+    "titre":       { "type": "string" },
+    "resume":      { "type": "string", "description": "2-3 phrases en langage simple" },
+    "conditions":  { "type": "array", "items": { "type": "string" } },
+    "pieces": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["nom", "obligatoire"],
+        "properties": {
+          "nom":         { "type": "string" },
+          "detail":      { "type": "string" },
+          "obligatoire": { "type": "boolean" }
+        }
+      }
+    },
+    "etapes": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["ordre", "texte"],
+        "properties": {
+          "ordre": { "type": "integer" },
+          "texte": { "type": "string" }
+        }
+      }
+    },
+    "cout":   { "type": "object", "properties": { "montant_dh": { "type": ["number", "null"] }, "note": { "type": "string" } } },
+    "delai":  { "type": ["string", "null"] },
+    "lieu":   { "type": ["string", "null"] },
+    "sources": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": ["nom", "url"],
+        "properties": { "nom": { "type": "string" }, "url": { "type": "string" } }
+      }
+    },
+    "date_derniere_verification": { "type": ["string", "null"], "description": "YYYY-MM-DD, null tant que non vérifiée" },
+    "statut":  { "enum": ["brouillon", "relu", "publie"] },
+    "version": { "type": "integer", "minimum": 1 },
+    "points_a_verifier": { "type": "array", "items": { "type": "string" }, "description": "Divergences entre sources, à trancher sur la source officielle" }
+  }
+}

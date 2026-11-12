@@ -1,0 +1,38 @@
+{
+  "slug": "cnie-renouvellement",
+  "demarche": "cnie",
+  "scenario": "renouvellement",
+  "langue": "fr",
+  "titre": "Renouveler sa carte d'identité nationale électronique (CNIE)",
+  "resume": "Si ta carte d'identité est expirée, tu dois la renouveler. La démarche commence en ligne sur cnie.ma (pré-demande et rendez-vous), puis tu déposes ton dossier et tes empreintes au point de dépôt.",
+  "conditions": [
+    "Être de nationalité marocaine",
+    "Avoir une carte d'identité expirée, perdue, volée ou abîmée"
+  ],
+  "pieces": [
+    { "nom": "Ancienne carte d'identité expirée", "obligatoire": true },
+    { "nom": "Livret de famille ou extrait d'acte de naissance", "detail": "Daté de moins de 3 mois (à vérifier sur cnie.ma)", "obligatoire": true },
+    { "nom": "Certificat de résidence", "detail": "À vérifier: certaines sources disent qu'il n'est plus demandé avec la CNIE", "obligatoire": true }
+  ],
+  "etapes": [
+    { "ordre": 1, "texte": "Aller sur cnie.ma et créer une pré-demande." },
+    { "ordre": 2, "texte": "Prendre un rendez-vous en ligne." },
+    { "ordre": 3, "texte": "Se présenter au rendez-vous avec les pièces et donner ses empreintes." },
+    { "ordre": 4, "texte": "Suivre l'état de la demande sur cnie.ma." }
+  ],
+  "cout":  { "montant_dh": null, "note": "À vérifier sur cnie.ma" },
+  "delai": null,
+  "lieu":  "Point de dépôt de la DGSN (à préciser)",
+  "sources": [
+    { "nom": "Portail officiel CNIE (DGSN)", "url": "https://www.cnie.ma" }
+  ],
+  "date_derniere_verification": null,
+  "statut": "brouillon",
+  "version": 1,
+  "points_a_verifier": [
+    "Coût exact du renouvellement",
+    "Délai de délivrance",
+    "Certificat de résidence encore exigé ou non",
+    "Âge à partir duquel la CNIE est obligatoire (16 ou 18 ans selon les sources)"
+  ]
+}
