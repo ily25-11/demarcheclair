@@ -3,7 +3,7 @@
 ## Structure
 ```
 demarcheclair/
-├── fiches/            # fiches JSON (binôme A) + schema.json (contrat entre binômes)
+├── fiches/            # fiches JSON + schema.json
 ├── db/init.sql        # schéma PostgreSQL + pgvector
 ├── docker-compose.yml # base de données locale
 ├── validate_fiches.py # vérifie que les fiches respectent le schéma
