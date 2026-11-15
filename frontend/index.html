@@ -1,0 +1,471 @@
+<!doctype html>
+<html lang="fr" dir="ltr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>DémarcheClair</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500..800&family=Readex+Pro:wght@300..700&display=swap" rel="stylesheet">
+<style>
+:root{--paper:#EEF1FA;--white:#fff;--blue:#2236C9;--deep:#101A5C;--saffron:#F4B22B;--green:#17855F;--muted:#55608F;--line:#D5DAF0;--r:22px;--disp:"Bricolage Grotesque","Readex Pro",system-ui,sans-serif}
+*{box-sizing:border-box}
+body{margin:0;background:var(--paper);color:var(--deep);font:400 1.0625rem/1.65 "Readex Pro",system-ui,"Segoe UI",Tahoma,sans-serif}
+h1,h2,h3{font-family:var(--disp);line-height:1.15;margin:0}
+a{color:var(--blue)}
+:focus-visible{outline:3px solid var(--saffron);outline-offset:3px;border-radius:6px}
+@keyframes rise{from{opacity:0;transform:translateY(.4em)}}
+@keyframes fade{from{opacity:0}}
+#app>*{animation:fade .35s both}
+.wrap{max-width:1100px;margin:0 auto;padding:clamp(20px,4vw,48px) clamp(16px,4vw,40px)}
+.top{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:12px;max-width:1100px;margin:0 auto;padding:16px clamp(16px,4vw,40px)}
+.logo{display:flex;align-items:center;gap:14px;font:700 1.35rem var(--disp);color:var(--deep);text-decoration:none}
+.mark{position:relative;width:22px;height:22px;background:var(--blue)}
+.mark::after{content:"";position:absolute;inset:0;border:2.5px solid var(--saffron);transform:rotate(45deg)}
+nav{display:flex;gap:4px}
+nav a{padding:8px 16px;border-radius:99px;color:var(--deep);text-decoration:none;font-weight:500;transition:background .2s,color .2s}
+nav a:hover{background:var(--line)}
+nav a.on{background:var(--deep);color:#fff}
+.langs{display:flex;background:var(--white);border-radius:99px;padding:3px}
+.langs button{border:0;background:none;padding:5px 14px;border-radius:99px;font:inherit;font-size:.9rem;cursor:pointer;color:var(--deep);transition:background .25s,color .25s}
+.langs button[aria-pressed=true]{background:var(--blue);color:#fff}
+.hero{margin:0 clamp(8px,2vw,24px);border-radius:32px;background:var(--deep);color:#fff;padding:clamp(32px,7vw,84px) clamp(20px,5vw,64px);overflow:hidden;background-image:linear-gradient(45deg,#ffffff0b 1px,transparent 1px),linear-gradient(-45deg,#ffffff0b 1px,transparent 1px);background-size:40px 40px}
+.hero h1{font-size:clamp(2.2rem,6vw,4rem);max-width:16ch;margin:0 0 14px;animation:rise .7s backwards}
+.sub{color:#C9D2FA;max-width:48ch;margin:0;animation:rise .7s .12s backwards}
+.pills{display:flex;flex-wrap:wrap;gap:10px;margin-top:26px}
+.pill{border:0;background:var(--saffron);color:var(--deep);border-radius:99px;padding:10px 20px;font-family:inherit;font-size:1rem;font-weight:600;cursor:pointer;transition:transform .15s,background .2s,box-shadow .2s;animation:rise .6s backwards;animation-delay:calc(var(--i)*70ms + 250ms)}
+.pill:hover{transform:translateY(-2px)}
+.pill[aria-pressed=true]{background:#fff;box-shadow:0 0 0 3px var(--saffron)}
+.pill.o{background:transparent;color:#fff;box-shadow:inset 0 0 0 2px #ffffff55}
+.pill.o[aria-pressed=true]{background:var(--saffron);color:var(--deep);box-shadow:none}
+.prev:empty{display:none}
+.prev{margin-top:30px;max-width:700px;background:var(--white);color:var(--deep);border-radius:var(--r);padding:22px 26px;transition:opacity .2s,transform .2s}
+.prev.swap{opacity:0;transform:translateY(8px)}
+.prev h2{font-size:1.4rem;margin-bottom:6px}
+.prev p{margin:0 0 14px;color:var(--muted)}
+.meta{display:flex;flex-wrap:wrap;gap:10px;align-items:center}
+.btn{display:inline-block;border:0;background:var(--blue);color:#fff;padding:12px 24px;border-radius:99px;font-family:inherit;font-size:1rem;font-weight:600;cursor:pointer;text-decoration:none;transition:transform .15s,background .2s}
+.btn:hover{background:#1a2aa8;transform:translateY(-2px)}
+.btn.alt{background:var(--white);color:var(--deep);box-shadow:inset 0 0 0 2px var(--line);padding:8px 18px;font-weight:500}
+.btn.alt:hover{background:var(--line)}
+.chip{display:inline-block;padding:2px 12px;border-radius:99px;font-size:.82rem;font-weight:500;margin-inline-end:6px;background:#DDF3EA;color:#0D6747}
+.chip.warn{background:#FDEFC8;color:#7A5200}
+.find h2{font-size:1.7rem;margin-bottom:16px}
+.find input[type=search]{width:100%;padding:16px 24px;border:2px solid var(--line);border-radius:99px;font:inherit;background:var(--white);color:var(--deep);transition:border-color .2s,box-shadow .2s}
+.find input:focus{outline:0;border-color:var(--blue);box-shadow:0 0 0 5px #2236C922}
+.rows{margin-top:16px}
+.row{display:block;padding:20px 8px;border-bottom:1px solid var(--line);text-decoration:none;color:inherit;transition:padding .25s,background .25s}
+.row:hover{padding-inline-start:24px;background:var(--white)}
+.row h3{font-size:1.2rem;margin-bottom:4px;color:var(--blue)}
+.row p{margin:0 0 8px;color:var(--muted)}
+.back{display:inline-block;margin-bottom:18px;color:var(--deep);font-weight:500;text-decoration:none}
+.back:hover{text-decoration:underline}
+.fiche{display:grid;gap:40px;grid-template-columns:minmax(0,1fr) 340px;align-items:start}
+.fiche h1{font-size:clamp(2rem,5vw,3.1rem);margin:14px 0}
+.lead{font-size:1.2rem;max-width:60ch;margin:0 0 20px}
+.block{margin:36px 0}
+.block h2{font-size:1.4rem;margin-bottom:14px}
+.block ul{padding-inline-start:22px;margin:0}
+.block li{margin-bottom:8px}
+.steps{list-style:none;padding:0!important;counter-reset:s}
+.steps li{position:relative;padding-inline-start:56px;padding-bottom:22px;margin:0;counter-increment:s}
+.steps li::before{content:counter(s);position:absolute;inset-inline-start:0;top:0;width:36px;height:36px;border-radius:50%;background:var(--blue);color:#fff;display:grid;place-items:center;font-weight:700}
+.steps li::after{content:"";position:absolute;inset-inline-start:17px;top:42px;bottom:4px;width:2px;background:var(--line)}
+.steps li:last-child::after{display:none}
+.facts{display:grid;gap:20px;grid-template-columns:repeat(auto-fit,minmax(200px,1fr))}
+.facts>div{border-inline-start:4px solid var(--saffron);padding-inline-start:14px}
+.facts h3{font-size:1.05rem;margin-bottom:4px}
+.facts p{margin:0}
+.big{font-size:2.6rem!important}
+.aside{position:sticky;top:16px;background:var(--white);border-radius:var(--r);padding:22px}
+.aside h2{font-size:1.25rem}
+.bar{height:8px;border-radius:9px;background:var(--line);overflow:hidden;margin:8px 0 14px}
+.bar i{display:block;height:100%;width:0;background:var(--green);transition:width .45s cubic-bezier(.3,1.4,.5,1)}
+.pc{display:flex;gap:12px;align-items:flex-start;padding:12px 0;border-top:1px solid var(--line);cursor:pointer}
+.pc input{appearance:none;flex:none;width:24px;height:24px;border:2px solid var(--blue);border-radius:8px;margin:2px 0 0;cursor:pointer;display:grid;place-content:center;transition:background .2s,border-color .2s}
+.pc input:checked{background:var(--green);border-color:var(--green)}
+.pc input:checked::after{content:"✓";color:#fff;font-size:15px;line-height:1}
+.pc strong{transition:opacity .2s}
+.pc.done strong{opacity:.45;text-decoration:line-through}
+.detail{color:var(--muted);font-size:.92rem}
+details{border-bottom:1px solid var(--line);padding:14px 0}
+summary{cursor:pointer;font-weight:600;list-style:none;display:flex;justify-content:space-between;gap:12px}
+summary::-webkit-details-marker{display:none}
+summary::after{content:"+";font-size:1.5rem;line-height:1;color:var(--blue);transition:transform .25s}
+details[open] summary::after{transform:rotate(45deg)}
+details p{margin:10px 0 0;color:var(--muted);animation:rise .3s}
+.fb{display:flex;flex-wrap:wrap;gap:10px;align-items:center}
+.fb h2{width:100%}
+.fb textarea{width:100%;padding:14px;border:2px solid var(--line);border-radius:16px;font:inherit}
+.msg{padding:14px 18px;border-radius:14px;background:#FDEFC8;color:#7A5200}
+.chat{max-width:760px;margin:0 auto}
+.chat h1{font-size:clamp(2rem,5vw,3rem);margin-bottom:10px}
+.log{display:flex;flex-direction:column;gap:12px;margin:24px 0}
+.bulle{max-width:88%;padding:14px 18px;border-radius:20px;animation:rise .3s both}
+.bulle.user{align-self:flex-end;background:var(--blue);color:#fff;border-end-end-radius:6px}
+.bulle.bot{align-self:flex-start;background:var(--white);border-end-start-radius:6px}
+.bulle.err{align-self:flex-start;background:#FDEFC8;color:#7A5200}
+.src{display:inline-block;margin:8px 8px 0 0;margin-inline:0 8px;padding:2px 12px;border-radius:99px;background:var(--paper);font-size:.85rem;text-decoration:none}
+.dots span{display:inline-block;width:8px;height:8px;margin:0 3px;border-radius:50%;background:var(--blue);animation:bounce 1s infinite}
+.dots span:nth-child(2){animation-delay:.15s}
+.dots span:nth-child(3){animation-delay:.3s}
+@keyframes bounce{50%{transform:translateY(-6px);opacity:.4}}
+.sugg{display:flex;flex-wrap:wrap;gap:10px;margin-bottom:20px}
+.ask{display:flex;gap:10px;background:var(--white);padding:8px;border-radius:99px;box-shadow:0 0 0 2px var(--line);transition:box-shadow .2s}
+.ask:focus-within{box-shadow:0 0 0 3px var(--blue)}
+.ask input{flex:1;min-width:0;border:0;background:none;font:inherit;padding:8px 16px;color:var(--deep)}
+.ask input:focus{outline:0}
+footer{text-align:center;color:var(--muted);padding:40px 16px 24px;font-size:.9rem}
+@media(max-width:860px){.fiche{grid-template-columns:1fr}.aside{position:static}}
+@media(max-width:700px){
+nav{position:fixed;z-index:5;inset-inline:12px;bottom:12px;justify-content:space-around;background:var(--deep);padding:6px;border-radius:99px;box-shadow:0 10px 30px #101A5C66}
+nav a{flex:1;text-align:center;color:#fff;padding:10px 6px}
+nav a:hover{background:#ffffff22}
+nav a.on{background:var(--saffron);color:var(--deep)}
+body{padding-bottom:84px}
+}
+@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+@media print{.top,nav,footer,.noprint,.fb,.back{display:none!important}body{background:#fff}}
+</style>
+</head>
+<body>
+<header class="top">
+  <a class="logo" href="#/"><span class="mark"></span>DémarcheClair</a>
+  <nav>
+    <a href="#/" data-k="home"></a>
+    <a href="#/chat" data-k="chat"></a>
+    <a href="#/stats" data-k="stats"></a>
+  </nav>
+  <div class="langs">
+    <button id="fr" aria-pressed="true">FR</button>
+    <button id="ar" aria-pressed="false">العربية</button>
+  </div>
+</header>
+<main id="app"></main>
+<footer><span data-k="foot"></span> &copy; 2026 DémarcheClair</footer>
+
+<script>
+const API = "http://127.0.0.1:8000";
+
+const TXT = {
+  fr: {
+    home: "Accueil", foot: "Vérifiez toujours sur cnie.ma.",
+    heroQ: "Quelle démarche pour votre carte ?", heroSub: "Choisissez votre situation, on vous montre les pièces, le coût et le lieu.",
+    first: "Première demande", renew: "Renouvellement", lost: "Perte, vol ou carte abîmée",
+    pMinor: "Pour un mineur", pAbroad: "À l’étranger",
+    browse: "Toutes les fiches", search: "Cherche une démarche (ex. renouvellement CNIE)",
+    none: "Aucun résultat.", apiDown: "L’API ne répond pas. Lance uvicorn, puis recharge la page.",
+    back: "← Retour", noLang: "Cette fiche n’est pas encore disponible en français.",
+    conditions: "Conditions", pieces: "Pièces à fournir", steps: "Étapes", cost: "Coût",
+    delay: "Délai", place: "Lieu", faq: "Questions fréquentes", sources: "Sources officielles",
+    required: "Obligatoire", depends: "Selon le cas",
+    verifiedToday: "Vérifié aujourd’hui",
+    verifiedAgo: j => `Vérifié il y a ${j} jour${j > 1 ? "s" : ""}`,
+    notVerified: "Pas encore vérifié", draft: "Brouillon",
+    ready: (k, n) => `${k} sur ${n} pièces prêtes`,
+    helpful: "Cette fiche vous a-t-elle aidé ?", yes: "Oui", no: "Non",
+    precise: "Qu’est-ce qui manque ou semble faux ? (sans données personnelles)",
+    send: "Envoyer", thanks: "Merci pour votre retour !",
+    wizGo: "Ouvrir la fiche", print: "Imprimer", listen: "Écouter",
+    history: "Historique des versions", changed: "modifié", created: "création",
+    stats: "Qualité", sTotal: "Fiches", sPub: "Publiées", sOld: "À revérifier (plus de 90 jours)",
+    sSearch: "Recherches", sFb: "Retours des utilisateurs", sUseful: "utile", sNotUseful: "pas utile",
+    sEmpty: "Recherches sans résultat", sNoneYet: "Rien pour l’instant.",
+    chat: "Assistant", chatTitle: "Assistant CNIE", chatPlaceholder: "Posez votre question…",
+    chatWarn: "Je réponds uniquement à partir des fiches vérifiées de ce site. Ne partagez aucune donnée personnelle et vérifiez toujours sur cnie.ma.",
+    chatErr: "L’assistant est indisponible. Réessaie dans un instant.", chatSources: "Sources :",
+    chips: ["Quelles pièces pour renouveler ma carte ?", "Ma carte est tombée dans l’eau", "Combien coûte le timbre ?"]
+  },
+  ar: {
+    home: "الرئيسية", foot: "تحقق دائما من cnie.ma.",
+    heroQ: "ما المسطرة التي تحتاجها لبطاقتك؟", heroSub: "اختر حالتك لنعرض لك الوثائق والتكلفة والمكان.",
+    first: "طلب لأول مرة", renew: "تجديد", lost: "ضياع أو سرقة أو إتلاف",
+    pMinor: "لقاصر", pAbroad: "من الخارج",
+    browse: "كل الصفحات", search: "ابحث عن مسطرة (مثال: تجديد البطاقة الوطنية)",
+    none: "لا توجد نتائج.", apiDown: "الخادم لا يستجيب. شغّل uvicorn ثم أعد تحميل الصفحة.",
+    back: "→ رجوع", noLang: "هذه الصفحة غير متوفرة بعد بالعربية.",
+    conditions: "الشروط", pieces: "الوثائق المطلوبة", steps: "المراحل", cost: "التكلفة",
+    delay: "الأجل", place: "المكان", faq: "أسئلة شائعة", sources: "المصادر الرسمية",
+    required: "إلزامية", depends: "حسب الحالة",
+    verifiedToday: "تم التحقق اليوم",
+    verifiedAgo: j => `تم التحقق منذ ${j} يوم`,
+    notVerified: "لم يتم التحقق بعد", draft: "مسودة",
+    ready: (k, n) => `${k} من ${n} وثائق جاهزة`,
+    helpful: "هل ساعدتك هذه الصفحة؟", yes: "نعم", no: "لا",
+    precise: "ما الذي ينقص أو يبدو خاطئا؟ (دون بيانات شخصية)",
+    send: "إرسال", thanks: "شكرا على ملاحظاتك!",
+    wizGo: "افتح الصفحة", print: "طباعة", listen: "استماع",
+    history: "سجل الإصدارات", changed: "تم تعديل", created: "إنشاء",
+    stats: "الجودة", sTotal: "الصفحات", sPub: "المنشورة", sOld: "تحتاج مراجعة (أكثر من 90 يوما)",
+    sSearch: "عمليات البحث", sFb: "ملاحظات المستخدمين", sUseful: "مفيدة", sNotUseful: "غير مفيدة",
+    sEmpty: "بحث بدون نتائج", sNoneYet: "لا شيء حاليا.",
+    chat: "المساعد", chatTitle: "مساعد البطاقة الوطنية", chatPlaceholder: "اطرح سؤالك…",
+    chatWarn: "أجيب فقط انطلاقا من الصفحات الموثوقة في هذا الموقع. لا تشارك أي بيانات شخصية وتحقق دائما من cnie.ma.",
+    chatErr: "المساعد غير متاح. حاول مرة أخرى بعد قليل.", chatSources: "المصادر:",
+    chips: ["ما هي الوثائق اللازمة لتجديد بطاقتي؟", "بطاقتي تضررت بالماء", "كم يبلغ ثمن الطابع؟"]
+  }
+};
+
+let langue = "fr";
+let lastQ = "";
+const app = document.getElementById("app");
+const t = () => TXT[langue];
+
+function h(tag, attrs = {}, ...children) {
+  const e = document.createElement(tag);
+  for (const [k, v] of Object.entries(attrs)) {
+    if (k === "class") e.className = v;
+    else if (k.startsWith("on")) e.addEventListener(k.slice(2), v);
+    else e.setAttribute(k, v);
+  }
+  for (const c of children.flat()) {
+    if (c == null || c === false) continue;
+    e.append(c.nodeType ? c : document.createTextNode(c));
+  }
+  return e;
+}
+
+async function api(path, opts) {
+  const r = await fetch(API + path, opts);
+  if (!r.ok) { const err = new Error(r.status); err.status = r.status; throw err; }
+  return r.json();
+}
+
+function freshness(j) {
+  if (j == null) return h("span", { class: "chip warn" }, t().notVerified);
+  return h("span", { class: "chip" }, j === 0 ? t().verifiedToday : t().verifiedAgo(j));
+}
+const statusBadge = s => s !== "publie" ? h("span", { class: "chip warn" }, t().draft) : null;
+const backLink = () => h("a", { class: "back", href: "#/" }, t().back);
+
+function formatReponse(texte) {
+  const frag = document.createDocumentFragment();
+  const lignes = texte.split("\n");
+  lignes.forEach((ligne, i) => {
+    ligne.split(/(\*\*[^*]+\*\*)/g).forEach(p => {
+      if (p.length > 4 && p.startsWith("**") && p.endsWith("**")) frag.append(h("strong", {}, p.slice(2, -2)));
+      else if (p) frag.append(document.createTextNode(p));
+    });
+    if (i < lignes.length - 1) frag.append(document.createElement("br"));
+  });
+  return frag;
+}
+
+function pickSlug(who, cas, where) {
+  if (where === "abroad") return "cnie-mre-consulat";
+  if (who === "minor") return "cnie-mineur";
+  return { first: "cnie-premiere-demande", renew: "cnie-renouvellement", lost: "cnie-perte-vol" }[cas];
+}
+
+/* ---------- Accueil ---------- */
+function renderHome() {
+  const st = { cas: null, minor: false, abroad: false };
+  const prev = h("div", { class: "prev", "aria-live": "polite" });
+  let tok = 0;
+  const pill = (label, i, cls, fn) => {
+    const b = h("button", { class: "pill " + cls, "aria-pressed": "false", style: `--i:${i}` }, label);
+    b.addEventListener("click", () => fn(b));
+    return b;
+  };
+  const cases = [["first", t().first], ["renew", t().renew], ["lost", t().lost]];
+  const casePills = cases.map(([v, l], i) => pill(l, i, "", () => {
+    st.cas = st.cas === v ? null : v;
+    casePills.forEach((p, j) => p.setAttribute("aria-pressed", String(cases[j][0] === st.cas)));
+    showPrev();
+  }));
+  const tog = (label, i, key) => pill(label, i, "o", b => { st[key] = !st[key]; b.setAttribute("aria-pressed", String(st[key])); showPrev(); });
+  const pills = h("div", { class: "pills" }, casePills, tog(t().pMinor, 3, "minor"), tog(t().pAbroad, 4, "abroad"));
+
+  async function showPrev() {
+    const my = ++tok;
+    if (!st.cas && !st.minor && !st.abroad) { prev.classList.remove("swap"); prev.replaceChildren(); return; }
+    const slug = pickSlug(st.minor ? "minor" : "me", st.cas || "renew", st.abroad ? "abroad" : "morocco");
+    prev.classList.add("swap");
+    let nodes;
+    try {
+      const f = await api(`/fiches/${slug}?langue=${langue}`);
+      nodes = [h("h2", {}, f.titre), h("p", {}, f.contenu.resume || ""),
+        h("div", { class: "meta" }, h("a", { class: "btn", href: `#/fiche/${slug}` }, t().wizGo), freshness(f.jours_depuis_verification), statusBadge(f.statut))];
+    } catch (e) { nodes = [h("p", { style: "margin:0" }, e.status === 404 ? t().noLang : t().apiDown)]; }
+    await new Promise(r => setTimeout(r, 200));
+    if (my !== tok) return;
+    prev.replaceChildren(...nodes);
+    prev.classList.remove("swap");
+  }
+
+  const results = h("div", { class: "rows", "aria-live": "polite" });
+  let timer;
+  const input = h("input", {
+    type: "search", placeholder: t().search, "aria-label": t().search, value: lastQ,
+    oninput: e => { clearTimeout(timer); timer = setTimeout(() => { lastQ = e.target.value.trim(); load(); }, 300); }
+  });
+  app.replaceChildren(
+    h("section", { class: "hero" }, h("h1", {}, t().heroQ), h("p", { class: "sub" }, t().heroSub), pills, prev),
+    h("section", { class: "wrap find" }, h("h2", {}, t().browse), input, results));
+
+  async function load() {
+    try {
+      const path = lastQ.length >= 2 ? `/search?q=${encodeURIComponent(lastQ)}&langue=${langue}` : `/fiches?langue=${langue}`;
+      const fiches = await api(path);
+      results.replaceChildren(...(fiches.length ? fiches.map(row) : [h("p", {}, t().none)]));
+    } catch { results.replaceChildren(h("p", { class: "msg" }, t().apiDown)); }
+  }
+  load();
+}
+
+const row = f => h("a", { class: "row", href: `#/fiche/${f.slug}` },
+  h("h3", {}, f.titre), h("p", {}, f.resume),
+  h("div", {}, freshness(f.jours_depuis_verification), statusBadge(f.statut)));
+
+/* ---------- Fiche ---------- */
+async function renderFiche(slug) {
+  try {
+    const f = await api(`/fiches/${encodeURIComponent(slug)}?langue=${langue}`);
+    const c = f.contenu;
+    const n = c.pieces?.length || 0;
+    const lbl = h("div", { class: "detail" }), bar = h("i");
+    const pcs = (c.pieces || []).map(p => {
+      const cb = h("input", { type: "checkbox" });
+      const r = h("label", { class: "pc" }, cb, h("div", {}, h("strong", {}, p.nom), " ",
+        h("span", { class: p.obligatoire ? "chip" : "chip warn" }, p.obligatoire ? t().required : t().depends),
+        p.detail && h("div", { class: "detail" }, p.detail)));
+      cb.addEventListener("change", () => { r.classList.toggle("done", cb.checked); upd(); });
+      return r;
+    });
+    const upd = () => {
+      const k = pcs.filter(r => r.firstChild.checked).length;
+      bar.style.width = (n ? k / n * 100 : 0) + "%";
+      lbl.textContent = t().ready(k, n);
+    };
+    upd();
+    const hist = h("div", { class: "block noprint" });
+    const facts = [[t().cost, c.cout?.note], [t().delay, c.delai], [t().place, c.lieu]].filter(x => x[1]);
+    const speak = () => {
+      if (speechSynthesis.speaking) { speechSynthesis.cancel(); return; }
+      const texte = [f.titre, c.resume, ...(c.pieces || []).map(p => p.nom), ...(c.etapes || []).map(e => e.texte)].filter(Boolean).join(". ");
+      const u = new SpeechSynthesisUtterance(texte);
+      u.lang = langue === "ar" ? "ar-SA" : "fr-FR";
+      speechSynthesis.speak(u);
+    };
+    const main = h("div", {},
+      h("div", {}, freshness(f.jours_depuis_verification), statusBadge(f.statut)),
+      h("h1", {}, f.titre),
+      c.resume && h("p", { class: "lead" }, c.resume),
+      h("div", { class: "meta noprint" }, h("button", { class: "btn alt", onclick: () => window.print() }, t().print),
+        "speechSynthesis" in window && h("button", { class: "btn alt", onclick: speak }, t().listen)),
+      c.conditions?.length ? h("div", { class: "block" }, h("h2", {}, t().conditions), h("ul", {}, c.conditions.map(x => h("li", {}, x)))) : null,
+      c.etapes?.length ? h("div", { class: "block" }, h("h2", {}, t().steps), h("ol", { class: "steps" }, c.etapes.map(e => h("li", {}, e.texte)))) : null,
+      facts.length ? h("div", { class: "block facts" }, facts.map(([k, v]) => h("div", {}, h("h3", {}, k), h("p", {}, v)))) : null,
+      c.faq?.length ? h("div", { class: "block" }, h("h2", {}, t().faq), c.faq.map(q => h("details", {}, h("summary", {}, q.question), h("p", {}, q.reponse)))) : null,
+      c.sources?.length ? h("div", { class: "block" }, h("h2", {}, t().sources), h("ul", {}, c.sources.map(s =>
+        h("li", {}, h("a", { href: s.url, target: "_blank", rel: "noopener noreferrer" }, s.nom))))) : null,
+      hist, feedbackBox(f.slug));
+    const aside = n ? h("aside", { class: "aside noprint" }, h("h2", {}, t().pieces), lbl, h("div", { class: "bar" }, bar), pcs) : null;
+    app.replaceChildren(h("div", { class: "wrap" }, backLink(), h("div", { class: "fiche" }, main, aside)));
+    fillHistory(hist, f.slug);
+  } catch (e) {
+    app.replaceChildren(h("div", { class: "wrap" }, backLink(), h("p", { class: "msg" }, e.status === 404 ? t().noLang : t().apiDown)));
+  }
+}
+
+async function fillHistory(box, slug) {
+  try {
+    const versions = await api(`/fiches/${encodeURIComponent(slug)}/historique?langue=${langue}`);
+    if (!versions.length) return;
+    box.append(h("h2", {}, t().history), h("ul", {}, versions.map(v =>
+      h("li", {}, `v${v.version} · ${v.date}`,
+        v.champs_modifies.length ? ` — ${t().changed}: ${v.champs_modifies.join(", ")}` : (v.version === 1 ? ` — ${t().created}` : "")))));
+  } catch { }
+}
+
+/* ---------- Qualité ---------- */
+async function renderStats() {
+  try {
+    const s = await api("/stats");
+    const kpi = (v, l) => h("div", {}, h("h3", { class: "big" }, String(v)), h("p", {}, l));
+    app.replaceChildren(h("div", { class: "wrap" }, backLink(), h("h1", {}, t().stats),
+      h("div", { class: "block facts" }, kpi(s.total, t().sTotal), kpi(s.publiees, t().sPub), kpi(s.a_reverifier, t().sOld), kpi(s.recherches_total, t().sSearch)),
+      h("div", { class: "block" }, h("h2", {}, t().sFb), s.feedback.length
+        ? h("ul", {}, s.feedback.map(r => h("li", {}, `${r.slug} (${r.langue}) : ${r.utile} ${t().sUseful}, ${r.pas_utile} ${t().sNotUseful}`)))
+        : h("p", {}, t().sNoneYet)),
+      h("div", { class: "block" }, h("h2", {}, t().sEmpty), s.recherches_sans_resultat.length
+        ? h("ul", {}, s.recherches_sans_resultat.map(r => h("li", {}, `« ${r.q} » × ${r.fois}`)))
+        : h("p", {}, t().sNoneYet))));
+  } catch { app.replaceChildren(h("div", { class: "wrap" }, backLink(), h("p", { class: "msg" }, t().apiDown))); }
+}
+
+/* ---------- Assistant ---------- */
+function renderChat() {
+  const historique = [];
+  const log = h("div", { class: "log", "aria-live": "polite" });
+  const input = h("input", { type: "text", maxlength: 500, placeholder: t().chatPlaceholder, "aria-label": t().chatPlaceholder, onkeydown: e => e.key === "Enter" && send() });
+  const ask = q => { input.value = q; send(); };
+  const sugg = h("div", { class: "sugg" }, t().chips.map(q => h("button", { class: "btn alt", onclick: () => ask(q) }, q)));
+  const add = (role, texte, sources = []) => log.append(h("div", { class: `bulle ${role}` },
+    role === "bot" ? formatReponse(texte) : texte,
+    sources.length ? h("div", { class: "detail" }, t().chatSources + " ", sources.map(s => h("a", { class: "src", href: `#/fiche/${s.slug}` }, s.titre))) : null));
+  async function send() {
+    const q = input.value.trim();
+    if (q.length < 2) return;
+    input.value = "";
+    sugg.remove();
+    add("user", q);
+    const attente = h("div", { class: "bulle bot dots", role: "status" }, h("span"), h("span"), h("span"));
+    log.append(attente);
+    try {
+      const r = await api("/chat", { method: "POST", headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ question: q, langue, historique: historique.slice(-6) }) });
+      attente.remove();
+      add("bot", r.reponse, r.sources);
+      historique.push({ role: "user", texte: q }, { role: "assistant", texte: r.reponse.slice(0, 500) });
+    } catch { attente.replaceWith(h("div", { class: "bulle err" }, t().chatErr)); }
+  }
+  app.replaceChildren(h("div", { class: "wrap" }, h("div", { class: "chat" }, h("h1", {}, t().chatTitle),
+    h("p", { class: "detail" }, t().chatWarn), log, sugg,
+    h("div", { class: "ask" }, input, h("button", { class: "btn", onclick: send }, t().send)))));
+}
+
+/* ---------- Retour ---------- */
+function feedbackBox(slug) {
+  const box = h("div", { class: "block fb noprint" });
+  const send = (utile, signalement) =>
+    api("/feedback", {
+      method: "POST", headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ slug, langue, utile, signalement: signalement || null })
+    }).then(() => box.replaceChildren(h("p", {}, t().thanks))).catch(() => box.append(h("p", { class: "msg" }, t().apiDown)));
+  const showForm = () => {
+    const ta = h("textarea", { rows: 3, maxlength: 500, "aria-label": t().precise, placeholder: t().precise });
+    box.replaceChildren(ta, h("button", { class: "btn", onclick: () => send(false, ta.value.trim()) }, t().send));
+  };
+  box.append(h("h2", {}, t().helpful),
+    h("button", { class: "btn alt", onclick: () => send(true) }, t().yes),
+    h("button", { class: "btn alt", onclick: showForm }, t().no));
+  return box;
+}
+
+/* ---------- Routage et langue ---------- */
+function route() {
+  document.querySelectorAll("[data-k]").forEach(e => { e.textContent = t()[e.dataset.k]; });
+  const base = ["#/chat", "#/stats"].includes(location.hash) ? location.hash : "#/";
+  document.querySelectorAll("nav a").forEach(a => a.classList.toggle("on", a.getAttribute("href") === base));
+  window.scrollTo(0, 0);
+  if (location.hash === "#/chat") return renderChat();
+  if (location.hash === "#/stats") return renderStats();
+  const m = location.hash.match(/^#\/fiche\/(.+)$/);
+  m ? renderFiche(decodeURIComponent(m[1])) : renderHome();
+}
+function setLangue(l) {
+  langue = l;
+  document.documentElement.lang = l;
+  document.documentElement.dir = l === "ar" ? "rtl" : "ltr";
+  document.getElementById("fr").setAttribute("aria-pressed", String(l === "fr"));
+  document.getElementById("ar").setAttribute("aria-pressed", String(l === "ar"));
+  route();
+}
+document.getElementById("fr").onclick = () => setLangue("fr");
+document.getElementById("ar").onclick = () => setLangue("ar");
+window.addEventListener("hashchange", route);
+route();
+</script>
+</body>
+</html>
