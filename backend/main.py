@@ -59,6 +59,10 @@ async def lifespan(app: FastAPI):
         cur.execute("""CREATE TABLE IF NOT EXISTS recherches (
             id SERIAL PRIMARY KEY, q TEXT NOT NULL, langue TEXT,
             nb_resultats INTEGER NOT NULL, created_at TIMESTAMPTZ NOT NULL DEFAULT now())""")
+        # Journal du chatbot: le texte n'est gardé que pour les questions restées sans réponse
+        cur.execute("""CREATE TABLE IF NOT EXISTS chat_log (
+            id SERIAL PRIMARY KEY, langue TEXT, hors_base BOOLEAN NOT NULL,
+            question TEXT, created_at TIMESTAMPTZ NOT NULL DEFAULT now())""")
     yield
 
 
@@ -194,27 +198,31 @@ def historique(slug: str, langue: Langue = "fr"):
 
 @app.get("/stats")
 def stats():
-    """Tableau de bord qualité."""
+    """Tableau de bord qualité: ce qu'il reste à traiter."""
     with curseur() as cur:
-        cur.execute("""SELECT count(*) AS total,
-                   count(*) FILTER (WHERE statut = 'publie') AS publiees,
-                   count(*) FILTER (WHERE date_derniere_verification IS NULL
-                                    OR date_derniere_verification < current_date - 90) AS a_reverifier
-                   FROM fiches""")
-        general = dict(cur.fetchone())
-        cur.execute("""SELECT f.slug, f.langue,
-                   count(*) FILTER (WHERE fb.utile) AS utile,
-                   count(*) FILTER (WHERE NOT fb.utile) AS pas_utile
-                   FROM fiches f JOIN feedback fb ON fb.fiche_id = f.id
-                   GROUP BY f.slug, f.langue ORDER BY pas_utile DESC""")
-        retours = [dict(r) for r in cur.fetchall()]
+        cur.execute("""SELECT f.slug, f.langue, f.titre, f.statut, f.date_derniere_verification,
+                   coalesce(jsonb_array_length(f.contenu->'points_a_verifier'), 0) AS points_ouverts,
+                   count(fb.id) FILTER (WHERE fb.utile) AS utile,
+                   count(fb.id) FILTER (WHERE NOT fb.utile) AS pas_utile
+                   FROM fiches f LEFT JOIN feedback fb ON fb.fiche_id = f.id
+                   GROUP BY f.id ORDER BY f.slug, f.langue""")
+        fiches = [ajouter_fraicheur(dict(r)) for r in cur.fetchall()]
+        cur.execute("""SELECT f.slug, f.titre, fb.signalement AS texte
+                   FROM feedback fb JOIN fiches f ON f.id = fb.fiche_id
+                   WHERE coalesce(fb.signalement, '') <> ''
+                   ORDER BY fb.created_at DESC LIMIT 10""")
+        signalements = [dict(r) for r in cur.fetchall()]
         cur.execute("""SELECT q, count(*) AS fois FROM recherches WHERE nb_resultats = 0
                    GROUP BY q ORDER BY fois DESC LIMIT 10""")
         vides = [dict(r) for r in cur.fetchall()]
-        cur.execute("SELECT count(*) AS n FROM recherches")
-        total = cur.fetchone()["n"]
-    return {**general, "recherches_total": total, "feedback": retours, "recherches_sans_resultat": vides}
-
+        cur.execute("SELECT count(*) AS total, count(*) FILTER (WHERE hors_base) AS hors_base FROM chat_log")
+        chat = dict(cur.fetchone())
+        cur.execute("""SELECT question, count(*) AS fois FROM chat_log
+                   WHERE hors_base AND question IS NOT NULL GROUP BY question
+                   ORDER BY fois DESC, max(created_at) DESC LIMIT 10""")
+        chat["questions"] = [dict(r) for r in cur.fetchall()]
+    return {"fiches": fiches, "signalements": signalements,
+            "recherches": {"sans_resultat": vides}, "chat": chat}
 
 class MessageIn(BaseModel):
     role: Literal["user", "assistant"]
@@ -238,7 +246,14 @@ def chat(c: ChatIn):
         )
         fiches = [dict(r) for r in cur.fetchall()]
     try:
-        return repondre(c.question, fiches, [m.model_dump() for m in c.historique])
+        res = repondre(c.question, fiches, [m.model_dump() for m in c.historique])
+        try:
+            with curseur() as cur:
+                cur.execute("INSERT INTO chat_log (langue, hors_base, question) VALUES (%s, %s, %s)",
+                            (c.langue, res["hors_base"], c.question if res["hors_base"] else None))
+        except Exception:
+            traceback.print_exc()  # le journal ne doit jamais empêcher de répondre
+        return res
     except ConfigError as e:
         raise HTTPException(status_code=503, detail=str(e))
     except Exception:

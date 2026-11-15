@@ -171,6 +171,10 @@ const TXT = {
     stats: "Qualité", sTotal: "Fiches", sPub: "Publiées", sOld: "À revérifier (plus de 90 jours)",
     sSearch: "Recherches", sFb: "Retours des utilisateurs", sUseful: "utile", sNotUseful: "pas utile",
     sEmpty: "Recherches sans résultat", sNoneYet: "Rien pour l’instant.",
+    kReady: "Fiches relues ou publiées", kUseful: "Retours « utile »", kUnanswered: "Questions sans réponse (assistant)",
+    todo: "À traiter", tReports: "Signalements des utilisateurs", tChat: "Questions sans réponse posées à l’assistant",
+    tSearch: "Recherches sans résultat", tFiches: "Fiches à compléter",
+    points: n => `${n} point${n > 1 ? "s" : ""} à vérifier`, allGood: "Tout est à jour.",
     chat: "Assistant", chatTitle: "Assistant CNIE", chatPlaceholder: "Posez votre question…",
     chatWarn: "Je réponds uniquement à partir des fiches vérifiées de ce site. Ne partagez aucune donnée personnelle et vérifiez toujours sur cnie.ma.",
     chatErr: "L’assistant est indisponible. Réessaie dans un instant.", chatSources: "Sources :",
@@ -199,6 +203,10 @@ const TXT = {
     stats: "الجودة", sTotal: "الصفحات", sPub: "المنشورة", sOld: "تحتاج مراجعة (أكثر من 90 يوما)",
     sSearch: "عمليات البحث", sFb: "ملاحظات المستخدمين", sUseful: "مفيدة", sNotUseful: "غير مفيدة",
     sEmpty: "بحث بدون نتائج", sNoneYet: "لا شيء حاليا.",
+    kReady: "الصفحات المراجعة أو المنشورة", kUseful: "ملاحظات «مفيدة»", kUnanswered: "أسئلة بلا جواب (المساعد)",
+    todo: "للمعالجة", tReports: "ملاحظات المستخدمين", tChat: "أسئلة بلا جواب طُرحت على المساعد",
+    tSearch: "عمليات بحث بدون نتائج", tFiches: "صفحات للإكمال",
+    points: n => `${n} نقاط للتحقق`, allGood: "كل شيء محدّث.",
     chat: "المساعد", chatTitle: "مساعد البطاقة الوطنية", chatPlaceholder: "اطرح سؤالك…",
     chatWarn: "أجيب فقط انطلاقا من الصفحات الموثوقة في هذا الموقع. لا تشارك أي بيانات شخصية وتحقق دائما من cnie.ma.",
     chatErr: "المساعد غير متاح. حاول مرة أخرى بعد قليل.", chatSources: "المصادر:",
@@ -382,15 +390,27 @@ async function fillHistory(box, slug) {
 async function renderStats() {
   try {
     const s = await api("/stats");
-    const kpi = (v, l) => h("div", {}, h("h3", { class: "big" }, String(v)), h("p", {}, l));
+    const fiches = s.fiches;
+    const prets = fiches.filter(f => f.statut !== "brouillon").length;
+    const u = fiches.reduce((a, f) => a + f.utile, 0), pu = fiches.reduce((a, f) => a + f.pas_utile, 0);
+    const pct = (a, b) => b ? Math.round(a / b * 100) + " %" : "—";
+    const kpi = (v, l) => h("div", {}, h("h3", { class: "big" }, v), h("p", {}, l));
+    const lien = f => h("a", { href: `#/fiche/${f.slug}` }, h("bdi", {}, f.titre));
+    const fois = n => n > 1 ? ` × ${n}` : "";
+    const liste = (titre, items) => items.length ? h("div", { class: "block" }, h("h2", {}, titre), h("ul", {}, items)) : null;
+    const aCompleter = fiches.filter(f => f.points_ouverts > 0 || f.statut === "brouillon" || (f.jours_depuis_verification ?? 999) > 90);
+    const blocs = [
+      liste(t().tReports, s.signalements.map(r => h("li", {}, h("bdi", {}, `« ${r.texte} »`), " — ", lien(r)))),
+      liste(t().tChat, s.chat.questions.map(q => h("li", {}, h("bdi", {}, q.question), fois(q.fois)))),
+      liste(t().tSearch, s.recherches.sans_resultat.map(r => h("li", {}, h("bdi", {}, `« ${r.q} »`), fois(r.fois)))),
+      liste(t().tFiches, aCompleter.map(f => h("li", {}, lien(f), " ",
+        h("span", { class: "chip warn" }, f.points_ouverts ? t().points(f.points_ouverts) : t().draft), " ",
+        h("span", { class: "chip" }, f.langue.toUpperCase()))))
+    ].filter(Boolean);
     app.replaceChildren(h("div", { class: "wrap" }, backLink(), h("h1", {}, t().stats),
-      h("div", { class: "block facts" }, kpi(s.total, t().sTotal), kpi(s.publiees, t().sPub), kpi(s.a_reverifier, t().sOld), kpi(s.recherches_total, t().sSearch)),
-      h("div", { class: "block" }, h("h2", {}, t().sFb), s.feedback.length
-        ? h("ul", {}, s.feedback.map(r => h("li", {}, `${r.slug} (${r.langue}) : ${r.utile} ${t().sUseful}, ${r.pas_utile} ${t().sNotUseful}`)))
-        : h("p", {}, t().sNoneYet)),
-      h("div", { class: "block" }, h("h2", {}, t().sEmpty), s.recherches_sans_resultat.length
-        ? h("ul", {}, s.recherches_sans_resultat.map(r => h("li", {}, `« ${r.q} » × ${r.fois}`)))
-        : h("p", {}, t().sNoneYet))));
+      h("div", { class: "block facts" }, kpi(`${prets} / ${fiches.length}`, t().kReady),
+        kpi(pct(u, u + pu), t().kUseful), kpi(pct(s.chat.hors_base, s.chat.total), t().kUnanswered)),
+      h("h2", {}, t().todo), ...(blocs.length ? blocs : [h("p", {}, t().allGood)])));
   } catch { app.replaceChildren(h("div", { class: "wrap" }, backLink(), h("p", { class: "msg" }, t().apiDown))); }
 }
 
