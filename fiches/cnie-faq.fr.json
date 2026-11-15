@@ -1,0 +1,68 @@
+{
+  "slug": "cnie-faq",
+  "demarche": "cnie",
+  "scenario": "faq",
+  "langue": "fr",
+  "titre": "CNIE: les questions générales",
+  "resume": "La CNIE est la carte d'identité nationale électronique du Maroc. Elle prouve ta nationalité et ton identité grâce à un numéro national unique, et elle est conçue pour être solide et très difficile à falsifier.",
+  "conditions": [],
+  "pieces": [],
+  "etapes": [],
+  "faq": [
+    {
+      "question": "Qu'est-ce que la CNIE ?",
+      "reponse": "C'est la carte nationale d'identité électronique. Elle certifie la nationalité et l'identité de son titulaire, y compris son identité numérique, grâce à un numéro national d'identité unique attribué à chaque personne. Cela évite les confusions entre identités."
+    },
+    {
+      "question": "À partir de quel âge la CNIE est-elle obligatoire ?",
+      "reponse": "À partir de 16 ans grégoriens révolus. Elle peut aussi être délivrée à un mineur de moins de 16 ans, à la demande de son représentant légal."
+    },
+    {
+      "question": "Quelle est la durée de validité de la CNIE ?",
+      "reponse": "Lors d'un renouvellement, la nouvelle carte est valable 10 ans pour les personnes de 12 ans et plus. Pour les mineurs de moins de 12 ans, elle est valable 7 ans au plus et expire quand l'enfant atteint 12 ans."
+    },
+    {
+      "question": "Quels textes encadrent la CNIE ?",
+      "reponse": "La loi n° 04.20 (Dahir n° 1.20.80 du 8 août 2020) et le décret n° 2.20.521 du 13 août 2020."
+    },
+    {
+      "question": "Quels sont les avantages de la nouvelle CNIE ?",
+      "reponse": "Elle est plus durable (fabriquée entièrement en polycarbonate), plus sécurisée contre la contrefaçon et la falsification, plus facile à lire automatiquement (zone MRZ et puce NFC), et elle permet une authentification forte grâce à des certificats numériques et à un code PIN personnel."
+    },
+    {
+      "question": "Comment reconnaître une vraie CNIE ?",
+      "reponse": "Elle a plusieurs éléments de sécurité que l'on peut regarder, toucher ou faire pivoter: un hologramme de la carte du Maroc dont les couleurs changent quand on fait pivoter la carte à 90°, un portrait principal sécurisé, un portrait secondaire en 3D, un motif qui change de couleur selon l'inclinaison de la carte, une impression en relief, une impression sécurisée du même type que celle des billets de banque, et une zone MRZ pour la lecture automatique des données."
+    }
+  ],
+  "cout": {
+    "montant_dh": null,
+    "note": "Voir les fiches par scénario"
+  },
+  "delai": null,
+  "lieu": null,
+  "sources": [
+    {
+      "nom": "cnie.ma, page « La nouvelle CNIE »",
+      "url": "https://www.cnie.ma"
+    },
+    {
+      "nom": "Dahir n° 1.20.80",
+      "url": "https://www.cnie.ma/assets/pdfs/CNIE_dahir_ar.pdf"
+    },
+    {
+      "nom": "Décret n° 2.20.521",
+      "url": "https://www.cnie.ma/assets/pdfs/CNIE_decret_ar.pdf"
+    }
+  ],
+  "date_derniere_verification": "2026-11-12",
+  "statut": "brouillon",
+  "version": 1,
+  "points_a_verifier": [
+    "Pour la nationalité et le caractère régalien: la version FR les mentionne, la version AR non. Quelle formulation garder ?",
+    "La page FR cite la loi 35-06 pour le décret 2.20.521, la page AR non. Ouvrir le PDF du décret pour confirmer",
+    "La CNIE remplace-t-elle certains documents administratifs (acte de naissance, certificat de résidence...) ?",
+    "Comment suivre l'état de sa demande ?",
+    "Que faire si les informations de la carte sont erronées ?",
+    "Peut-on faire la pré-demande sans se déplacer ?"
+  ]
+}

@@ -4,35 +4,80 @@
   "scenario": "renouvellement",
   "langue": "fr",
   "titre": "Renouveler sa carte d'identité nationale électronique (CNIE)",
-  "resume": "Si ta carte d'identité est expirée, tu dois la renouveler. La démarche commence en ligne sur cnie.ma (pré-demande et rendez-vous), puis tu déposes ton dossier et tes empreintes au point de dépôt.",
+  "resume": "Le renouvellement consiste à délivrer une nouvelle CNIE valable 10 ans pour les personnes de 12 ans et plus, et 7 ans au plus pour les mineurs de moins de 12 ans (la carte expire à leurs 12 ans).",
   "conditions": [
-    "Être de nationalité marocaine",
-    "Avoir une carte d'identité expirée, perdue, volée ou abîmée"
+    "Avoir déjà une CNIE à renouveler"
   ],
   "pieces": [
-    { "nom": "Ancienne carte d'identité expirée", "obligatoire": true },
-    { "nom": "Livret de famille ou extrait d'acte de naissance", "detail": "Daté de moins de 3 mois (à vérifier sur cnie.ma)", "obligatoire": true },
-    { "nom": "Certificat de résidence", "detail": "À vérifier: certaines sources disent qu'il n'est plus demandé avec la CNIE", "obligatoire": true }
+    {
+      "nom": "Certificat de résidence",
+      "detail": "Délivré par la Police en milieu urbain, par la Gendarmerie Royale en milieu rural (ou à défaut par l'autorité administrative locale). Pour les Marocains résidant à l'étranger: attestation d'immatriculation consulaire mentionnant l'adresse.",
+      "obligatoire": true
+    },
+    {
+      "nom": "Quatre photographies d'identité",
+      "detail": "Récentes (6 mois au maximum) et conformes aux normes en vigueur.",
+      "obligatoire": true
+    },
+    {
+      "nom": "Droits de timbre",
+      "detail": "75 Dhs pour les majeurs et les mineurs de 12 ans révolus et plus; 50 Dhs pour les mineurs de moins de 12 ans.",
+      "obligatoire": true
+    },
+    {
+      "nom": "Restitution de l'ancienne CNIE",
+      "detail": "Sauf si elle est perdue ou volée.",
+      "obligatoire": true
+    },
+    {
+      "nom": "Déclaration sur l'honneur",
+      "detail": "En cas de perte, d'altération ou de vol: déclaration établie par l'intéressé (ou son représentant légal pour un mineur), ou signature du formulaire préétabli par la DGSN.",
+      "obligatoire": false
+    },
+    {
+      "nom": "Pièces prouvant un changement d'état civil",
+      "detail": "En cas de changement de prénom, de nom ou de date de naissance, ou de rectification du lieu de naissance, du numéro de l'acte d'état civil ou de la filiation: pièces administratives ou judiciaires attestant la modification.",
+      "obligatoire": false
+    },
+    {
+      "nom": "Pièces pour la mention facultative « épouse », « veuve » ou « veuf »",
+      "detail": "Selon le cas: copie certifiée conforme de l'acte de mariage, extrait d'acte de naissance du conjoint, extrait d'acte de décès du conjoint.",
+      "obligatoire": false
+    }
   ],
   "etapes": [
-    { "ordre": 1, "texte": "Aller sur cnie.ma et créer une pré-demande." },
-    { "ordre": 2, "texte": "Prendre un rendez-vous en ligne." },
-    { "ordre": 3, "texte": "Se présenter au rendez-vous avec les pièces et donner ses empreintes." },
-    { "ordre": 4, "texte": "Suivre l'état de la demande sur cnie.ma." }
+    {
+      "ordre": 1,
+      "texte": "Réunir les pièces demandées (voir la liste ci-dessus)."
+    },
+    {
+      "ordre": 2,
+      "texte": "Si tu as rempli le formulaire de pré-demande, l'apporter dûment rempli."
+    },
+    {
+      "ordre": 3,
+      "texte": "Déposer le dossier (lieu à préciser, voir les points à vérifier)."
+    }
   ],
-  "cout":  { "montant_dh": null, "note": "À vérifier sur cnie.ma" },
+  "cout": {
+    "montant_dh": 75,
+    "note": "Droits de timbre: 75 Dhs pour les majeurs et les mineurs de 12 ans révolus et plus, 50 Dhs pour les mineurs de moins de 12 ans."
+  },
   "delai": null,
-  "lieu":  "Point de dépôt de la DGSN (à préciser)",
+  "lieu": null,
   "sources": [
-    { "nom": "Portail officiel CNIE (DGSN)", "url": "https://www.cnie.ma" }
+    {
+      "nom": "cnie.ma, rubrique « Procédures »",
+      "url": "https://www.cnie.ma"
+    }
   ],
-  "date_derniere_verification": null,
+  "date_derniere_verification": "2026-11-12",
   "statut": "brouillon",
   "version": 1,
   "points_a_verifier": [
-    "Coût exact du renouvellement",
-    "Délai de délivrance",
-    "Certificat de résidence encore exigé ou non",
-    "Âge à partir duquel la CNIE est obligatoire (16 ou 18 ans selon les sources)"
+    "Délai de délivrance (non indiqué sur la page « Procédures »)",
+    "Où déposer le dossier et faut-il prendre rendez-vous (non indiqué sur la page « Procédures »)",
+    "Un article récent parle d'un renouvellement en partie à distance via Epolice.ma et cnie.ma: quelles étapes concrètes ?",
+    "À partir de quand peut-on renouveler sa carte (avant la date d'expiration ?)"
   ]
 }

@@ -1,0 +1,68 @@
+{
+  "slug": "cnie-perte-vol",
+  "demarche": "cnie",
+  "scenario": "perte-vol",
+  "langue": "fr",
+  "titre": "Carte d'identité perdue, volée ou abîmée: que faire ?",
+  "resume": "En cas de perte, de vol ou d'altération de la CNIE, on fait une demande de renouvellement, avec en plus une déclaration sur l'honneur (ou la signature du formulaire préétabli par la DGSN).",
+  "conditions": [
+    "CNIE perdue, volée ou altérée"
+  ],
+  "pieces": [
+    {
+      "nom": "Déclaration sur l'honneur",
+      "detail": "En cas de perte, d'altération ou de vol: déclaration établie par l'intéressé (ou son représentant légal pour un mineur), ou signature du formulaire préétabli par la DGSN.",
+      "obligatoire": true
+    },
+    {
+      "nom": "Certificat de résidence",
+      "detail": "Délivré par la Police en milieu urbain, par la Gendarmerie Royale en milieu rural (ou à défaut par l'autorité administrative locale). Pour les Marocains résidant à l'étranger: attestation d'immatriculation consulaire mentionnant l'adresse.",
+      "obligatoire": true
+    },
+    {
+      "nom": "Quatre photographies d'identité",
+      "detail": "Récentes (6 mois au maximum) et conformes aux normes en vigueur.",
+      "obligatoire": true
+    },
+    {
+      "nom": "Droits de timbre",
+      "detail": "75 Dhs pour les majeurs et les mineurs de 12 ans révolus et plus; 50 Dhs pour les mineurs de moins de 12 ans.",
+      "obligatoire": true
+    }
+  ],
+  "etapes": [
+    {
+      "ordre": 1,
+      "texte": "Réunir les pièces demandées (voir la liste ci-dessus)."
+    },
+    {
+      "ordre": 2,
+      "texte": "Si tu as rempli le formulaire de pré-demande, l'apporter dûment rempli."
+    },
+    {
+      "ordre": 3,
+      "texte": "Déposer le dossier (lieu à préciser, voir les points à vérifier)."
+    }
+  ],
+  "cout": {
+    "montant_dh": 75,
+    "note": "Droits de timbre: 75 Dhs pour les majeurs et les mineurs de 12 ans révolus et plus, 50 Dhs pour les mineurs de moins de 12 ans."
+  },
+  "delai": null,
+  "lieu": null,
+  "sources": [
+    {
+      "nom": "cnie.ma, rubrique « Procédures »",
+      "url": "https://www.cnie.ma"
+    }
+  ],
+  "date_derniere_verification": "2026-11-12",
+  "statut": "brouillon",
+  "version": 1,
+  "points_a_verifier": [
+    "Délai de délivrance (non indiqué sur la page « Procédures »)",
+    "Où déposer le dossier et faut-il prendre rendez-vous (non indiqué sur la page « Procédures »)",
+    "Un article récent parle d'un renouvellement en partie à distance via Epolice.ma et cnie.ma: quelles étapes concrètes ?",
+    "Carte altérée (abîmée): faut-il rendre la carte en plus de la déclaration sur l'honneur ?"
+  ]
+}

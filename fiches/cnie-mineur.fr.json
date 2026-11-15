@@ -1,0 +1,90 @@
+{
+  "slug": "cnie-mineur",
+  "demarche": "cnie",
+  "scenario": "mineur",
+  "langue": "fr",
+  "titre": "Demander une carte d'identité nationale électronique pour un mineur",
+  "resume": "La CNIE peut être délivrée à un mineur de moins de 16 ans, à la demande de son représentant légal. Le mineur doit être présent et accompagné de son représentant légal.",
+  "conditions": [
+    "Mineur de moins de 16 ans (la CNIE est obligatoire à partir de 16 ans)",
+    "Demande faite par le représentant légal"
+  ],
+  "pieces": [
+    {
+      "nom": "Présence du mineur",
+      "detail": "Le mineur doit être présent lors de la demande.",
+      "obligatoire": true
+    },
+    {
+      "nom": "Représentant légal",
+      "detail": "Il accompagne le mineur et présente une copie de sa CNIE ainsi qu'un document justifiant sa qualité.",
+      "obligatoire": true
+    },
+    {
+      "nom": "Certificat de résidence",
+      "detail": "Délivré par la Police en milieu urbain, par la Gendarmerie Royale en milieu rural (ou à défaut par l'autorité administrative locale). Pour les Marocains résidant à l'étranger: attestation d'immatriculation consulaire mentionnant l'adresse.",
+      "obligatoire": true
+    },
+    {
+      "nom": "Quatre photographies d'identité",
+      "detail": "Récentes (6 mois au maximum) et conformes aux normes en vigueur.",
+      "obligatoire": true
+    },
+    {
+      "nom": "Droits de timbre",
+      "detail": "75 Dhs pour les majeurs et les mineurs de 12 ans révolus et plus; 50 Dhs pour les mineurs de moins de 12 ans.",
+      "obligatoire": true
+    },
+    {
+      "nom": "Justificatif d'état civil",
+      "detail": "Pour une première demande. Au choix: copie de la page du livret de famille de l'intéressé(e) (avec présentation du livret), copie intégrale du registre de l'état civil, ou extrait d'acte de naissance. Les deux derniers datent de moins de 3 mois et sont en arabe et en latin.",
+      "obligatoire": false
+    },
+    {
+      "nom": "Restitution de l'ancienne CNIE",
+      "detail": "Sauf si elle est perdue ou volée.",
+      "obligatoire": true
+    },
+    {
+      "nom": "Déclaration sur l'honneur",
+      "detail": "En cas de perte, d'altération ou de vol: déclaration établie par l'intéressé (ou son représentant légal pour un mineur), ou signature du formulaire préétabli par la DGSN.",
+      "obligatoire": false
+    }
+  ],
+  "etapes": [
+    {
+      "ordre": 1,
+      "texte": "Réunir les pièces demandées (voir la liste ci-dessus)."
+    },
+    {
+      "ordre": 2,
+      "texte": "Si tu as rempli le formulaire de pré-demande, l'apporter dûment rempli."
+    },
+    {
+      "ordre": 3,
+      "texte": "Déposer le dossier (lieu à préciser, voir les points à vérifier)."
+    }
+  ],
+  "cout": {
+    "montant_dh": null,
+    "note": "Droits de timbre: 50 Dhs pour un mineur de moins de 12 ans, 75 Dhs à partir de 12 ans révolus."
+  },
+  "delai": null,
+  "lieu": null,
+  "sources": [
+    {
+      "nom": "cnie.ma, rubrique « Procédures »",
+      "url": "https://www.cnie.ma"
+    }
+  ],
+  "date_derniere_verification": "2026-11-12",
+  "statut": "brouillon",
+  "version": 1,
+  "points_a_verifier": [
+    "Délai de délivrance (non indiqué sur la page « Procédures »)",
+    "Où déposer le dossier et faut-il prendre rendez-vous (non indiqué sur la page « Procédures »)",
+    "Un article récent parle d'un renouvellement en partie à distance via Epolice.ma et cnie.ma: quelles étapes concrètes ?",
+    "Quel document justifie la qualité de représentant légal (livret de famille, jugement...) ?",
+    "Prise d'empreintes d'un mineur: à partir de quel âge ?"
+  ]
+}

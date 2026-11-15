@@ -1,0 +1,68 @@
+{
+  "slug": "cnie-faq",
+  "demarche": "cnie",
+  "scenario": "faq",
+  "langue": "ar",
+  "titre": "البطاقة الوطنية للتعريف الإلكترونية: أسئلة عامة",
+  "resume": "البطاقة الوطنية للتعريف الإلكترونية وثيقة تعريف أقوى من أجل خدمة أفضل للمواطنين. تثبت هوية حاملها برقم وطني وحيد، وهي مصنوعة بمواد متينة وصعبة التزوير.",
+  "conditions": [],
+  "pieces": [],
+  "etapes": [],
+  "faq": [
+    {
+      "question": "ما هي البطاقة الوطنية للتعريف الإلكترونية؟",
+      "reponse": "هي بطاقة تثبت هوية حاملها، بما في ذلك هويته الرقمية، من خلال رقم وطني للتعريف وحيد خاص بكل شخص. ولها قيمة قانونية تمكّن المواطن من إثبات هويته، وتحميه من الخلط المتعمد أو العرضي الذي قد يطال الهوية."
+    },
+    {
+      "question": "ابتداء من أي سن تكون البطاقة الوطنية للتعريف الإلكترونية إجبارية؟",
+      "reponse": "تعتبر إجبارية لكل مواطن يبلغ 16 سنة شمسية كاملة، كما يمكن أن تسلم للقاصرين دون 16 سنة بطلب من نائبهم الشرعي."
+    },
+    {
+      "question": "ما هي مدة صلاحية البطاقة؟",
+      "reponse": "عند التجديد، تسلم بطاقة جديدة تمتد صلاحيتها إلى عشر سنوات للأشخاص الذين يبلغون 12 سنة فما فوق. أما القاصرون الذين تقل أعمارهم عن 12 سنة فتمتد صلاحية بطاقاتهم إلى 7 سنوات على الأكثر، مع انتهاء صلاحيتها عند بلوغ القاصر سن 12 سنة."
+    },
+    {
+      "question": "ما هي النصوص التي تنظم البطاقة؟",
+      "reponse": "القانون رقم 04.20، والظهير رقم 1.20.80، والمرسوم رقم 2.20.521 المعتمد لتطبيقه."
+    },
+    {
+      "question": "ما هي مزايا البطاقة الوطنية للتعريف الإلكترونية الجديدة؟",
+      "reponse": "هي أكثر متانة لأنها مصنوعة من مادة البوليكاربونات، وأكثر أمانا ضد التزوير والتزييف، وأسهل قراءة بفضل منطقة MRZ وتقنية NFC اللتين تتيحان استخراج المعلومات بطريقة آلية، كما توفر مصادقة قوية بفضل شهادات رقمية مرتبطة بالبطاقة وقن سري PIN خاص بالمواطن."
+    },
+    {
+      "question": "كيف أتعرف على بطاقة أصلية؟",
+      "reponse": "تتضمن عدة عناصر أمنية يمكن النظر إليها أو لمسها أو تدويرها: صورة تجسيدية لخريطة المملكة المغربية تتغير ألوانها عند إدارة البطاقة تسعين درجة، وصورة رئيسية مؤمنة، وصورة ثانوية ثلاثية الأبعاد، ونمط متغير بصريا يتغير لونه عند إمالة البطاقة، وطباعة بارزة، وطباعة مؤمنة من النوع المستعمل في طباعة الأوراق النقدية، ومنطقة MRZ من أجل قراءة آلية للمعطيات."
+    }
+  ],
+  "cout": {
+    "montant_dh": null,
+    "note": "راجع الصفحات الخاصة بكل حالة"
+  },
+  "delai": null,
+  "lieu": null,
+  "sources": [
+    {
+      "nom": "cnie.ma، صفحة «البطاقة الوطنية الجديدة»",
+      "url": "https://www.cnie.ma"
+    },
+    {
+      "nom": "الظهير رقم 1.20.80",
+      "url": "https://www.cnie.ma/assets/pdfs/CNIE_dahir_ar.pdf"
+    },
+    {
+      "nom": "المرسوم رقم 2.20.521",
+      "url": "https://www.cnie.ma/assets/pdfs/CNIE_decret_ar.pdf"
+    }
+  ],
+  "date_derniere_verification": "2026-11-12",
+  "statut": "brouillon",
+  "version": 1,
+  "points_a_verifier": [
+    "La version française de la page dit que la CNIE certifie la nationalité et a un caractère régalien; la version arabe ne parle ni de nationalité ni de caractère régalien (elle parle de valeur juridique). Quelle formulation garder ?",
+    "La version française cite la loi 35-06 pour le décret 2.20.521; la version arabe dit seulement que le décret est adopté pour l'application du dahir 1.20.80 (loi 04.20). Ouvrir le PDF du décret pour confirmer",
+    "La CNIE remplace-t-elle certains documents administratifs (acte de naissance, certificat de résidence...) ?",
+    "Comment suivre l'état de sa demande ?",
+    "Que faire si les informations de la carte sont erronées ?",
+    "Peut-on faire la pré-demande sans se déplacer ?"
+  ]
+}

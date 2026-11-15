@@ -1,0 +1,70 @@
+{
+  "slug": "cnie-mre-consulat",
+  "demarche": "cnie",
+  "scenario": "mre-consulat",
+  "langue": "fr",
+  "titre": "Demander ou renouveler sa CNIE depuis l'étranger (MRE)",
+  "resume": "Pour un Marocain résidant à l'étranger, l'attestation d'immatriculation consulaire (avec l'adresse) remplace le certificat de résidence. Les autres pièces sont les mêmes que pour une demande au Maroc.",
+  "conditions": [
+    "Marocain résidant à l'étranger"
+  ],
+  "pieces": [
+    {
+      "nom": "Attestation d'immatriculation consulaire",
+      "detail": "Mentionnant l'adresse de résidence. Elle remplace le certificat de résidence pour les Marocains résidant à l'étranger.",
+      "obligatoire": true
+    },
+    {
+      "nom": "Quatre photographies d'identité",
+      "detail": "Récentes (6 mois au maximum) et conformes aux normes en vigueur.",
+      "obligatoire": true
+    },
+    {
+      "nom": "Droits de timbre",
+      "detail": "75 Dhs pour les majeurs et les mineurs de 12 ans révolus et plus; 50 Dhs pour les mineurs de moins de 12 ans.",
+      "obligatoire": true
+    },
+    {
+      "nom": "Justificatif d'état civil",
+      "detail": "Pour une première demande. Au choix: copie de la page du livret de famille de l'intéressé(e) (avec présentation du livret), copie intégrale du registre de l'état civil, ou extrait d'acte de naissance. Les deux derniers datent de moins de 3 mois et sont en arabe et en latin.",
+      "obligatoire": false
+    },
+    {
+      "nom": "Restitution de l'ancienne CNIE",
+      "detail": "Pour un renouvellement, sauf si elle est perdue ou volée.",
+      "obligatoire": false
+    }
+  ],
+  "etapes": [
+    {
+      "ordre": 1,
+      "texte": "Réunir les pièces demandées (voir la liste ci-dessus)."
+    },
+    {
+      "ordre": 2,
+      "texte": "Si tu as rempli le formulaire de pré-demande, l'apporter dûment rempli."
+    }
+  ],
+  "cout": {
+    "montant_dh": null,
+    "note": "Droits de timbre: 75 Dhs (majeurs et mineurs de 12 ans et plus), 50 Dhs (moins de 12 ans). À confirmer pour les MRE."
+  },
+  "delai": null,
+  "lieu": "Consulat du Maroc du pays de résidence (à confirmer)",
+  "sources": [
+    {
+      "nom": "cnie.ma, rubrique « Procédures »",
+      "url": "https://www.cnie.ma"
+    }
+  ],
+  "date_derniere_verification": "2026-11-12",
+  "statut": "brouillon",
+  "version": 1,
+  "points_a_verifier": [
+    "Où et comment déposer le dossier à l'étranger (consulat ? rendez-vous en ligne ?)",
+    "Le dépôt et les empreintes se font-ils obligatoirement en personne ?",
+    "Les droits de timbre sont-ils les mêmes pour les MRE ?",
+    "Délai et mode de remise de la carte (retrait au consulat, envoi) ?",
+    "Les démarches diffèrent-elles selon le pays ou le consulat ?"
+  ]
+}

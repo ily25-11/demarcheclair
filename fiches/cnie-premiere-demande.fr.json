@@ -1,0 +1,83 @@
+{
+  "slug": "cnie-premiere-demande",
+  "demarche": "cnie",
+  "scenario": "premiere-demande",
+  "langue": "fr",
+  "titre": "Faire sa première carte d'identité nationale électronique (CNIE)",
+  "resume": "La CNIE est obligatoire dès 16 ans grégoriens révolus. Pour une première demande, il faut réunir un dossier: certificat de résidence, photos, droits de timbre et justificatif d'état civil.",
+  "conditions": [
+    "Avoir 16 ans grégoriens révolus (ou être mineur, la demande étant faite par le représentant légal)"
+  ],
+  "pieces": [
+    {
+      "nom": "Certificat de résidence",
+      "detail": "Délivré par la Police en milieu urbain, par la Gendarmerie Royale en milieu rural (ou à défaut par l'autorité administrative locale). Pour les Marocains résidant à l'étranger: attestation d'immatriculation consulaire mentionnant l'adresse.",
+      "obligatoire": true
+    },
+    {
+      "nom": "Quatre photographies d'identité",
+      "detail": "Récentes (6 mois au maximum) et conformes aux normes en vigueur.",
+      "obligatoire": true
+    },
+    {
+      "nom": "Droits de timbre",
+      "detail": "75 Dhs pour les majeurs et les mineurs de 12 ans révolus et plus; 50 Dhs pour les mineurs de moins de 12 ans.",
+      "obligatoire": true
+    },
+    {
+      "nom": "Justificatif d'état civil",
+      "detail": "Au choix: copie de la page du livret de famille de l'intéressé(e) (avec présentation du livret), copie intégrale du registre de l'état civil, ou extrait d'acte de naissance. Les deux derniers datent de moins de 3 mois et sont en arabe et en latin.",
+      "obligatoire": true
+    },
+    {
+      "nom": "Acte accordant la nationalité marocaine",
+      "detail": "Ampliation ou copie certifiée conforme. Seulement pour les étrangers ayant acquis la nationalité marocaine.",
+      "obligatoire": false
+    },
+    {
+      "nom": "Certificat de nationalité",
+      "detail": "Seulement si la nationalité marocaine du demandeur paraît douteuse.",
+      "obligatoire": false
+    },
+    {
+      "nom": "Pièces pour la mention facultative « épouse », « veuve » ou « veuf »",
+      "detail": "Selon le cas: copie certifiée conforme de l'acte de mariage, extrait d'acte de naissance du conjoint, extrait d'acte de décès du conjoint.",
+      "obligatoire": false
+    }
+  ],
+  "etapes": [
+    {
+      "ordre": 1,
+      "texte": "Réunir les pièces demandées (voir la liste ci-dessus)."
+    },
+    {
+      "ordre": 2,
+      "texte": "Si tu as rempli le formulaire de pré-demande, l'apporter dûment rempli."
+    },
+    {
+      "ordre": 3,
+      "texte": "Déposer le dossier (lieu à préciser, voir les points à vérifier)."
+    }
+  ],
+  "cout": {
+    "montant_dh": 75,
+    "note": "Droits de timbre: 75 Dhs pour les majeurs et les mineurs de 12 ans révolus et plus, 50 Dhs pour les mineurs de moins de 12 ans (précision donnée par la page arabe; la page française ne cite que 75 Dhs)."
+  },
+  "delai": null,
+  "lieu": null,
+  "sources": [
+    {
+      "nom": "cnie.ma, rubrique « Procédures »",
+      "url": "https://www.cnie.ma"
+    }
+  ],
+  "date_derniere_verification": "2026-11-12",
+  "statut": "brouillon",
+  "version": 1,
+  "points_a_verifier": [
+    "Délai de délivrance (non indiqué sur la page « Procédures »)",
+    "Où déposer le dossier et faut-il prendre rendez-vous (non indiqué sur la page « Procédures »)",
+    "Un article récent parle d'un renouvellement en partie à distance via Epolice.ma et cnie.ma: quelles étapes concrètes ?",
+    "Droits de timbre: la page française ne cite que 75 Dhs, la page arabe ajoute 50 Dhs pour les mineurs de moins de 12 ans. Confirmer"
+  ]
+}
