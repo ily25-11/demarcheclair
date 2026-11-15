@@ -161,7 +161,7 @@ const TXT = {
     required: "Obligatoire", depends: "Selon le cas",
     verifiedToday: "Vérifié aujourd’hui",
     verifiedAgo: j => `Vérifié il y a ${j} jour${j > 1 ? "s" : ""}`,
-    notVerified: "Pas encore vérifié", draft: "Brouillon",
+    notVerified: "Pas encore vérifié", draft: "Pas encore vérifié", reviewed: "Relu",
     ready: (k, n) => `${k} sur ${n} pièces prêtes`,
     helpful: "Cette fiche vous a-t-elle aidé ?", yes: "Oui", no: "Non",
     precise: "Qu’est-ce qui manque ou semble faux ? (sans données personnelles)",
@@ -189,7 +189,7 @@ const TXT = {
     required: "إلزامية", depends: "حسب الحالة",
     verifiedToday: "تم التحقق اليوم",
     verifiedAgo: j => `تم التحقق منذ ${j} يوم`,
-    notVerified: "لم يتم التحقق بعد", draft: "مسودة",
+    notVerified: "لم يتم التحقق بعد", draft: "قيد التحقق", reviewed: "تمت المراجعة", 
     ready: (k, n) => `${k} من ${n} وثائق جاهزة`,
     helpful: "هل ساعدتك هذه الصفحة؟", yes: "نعم", no: "لا",
     precise: "ما الذي ينقص أو يبدو خاطئا؟ (دون بيانات شخصية)",
@@ -235,7 +235,7 @@ function freshness(j) {
   if (j == null) return h("span", { class: "chip warn" }, t().notVerified);
   return h("span", { class: "chip" }, j === 0 ? t().verifiedToday : t().verifiedAgo(j));
 }
-const statusBadge = s => s !== "publie" ? h("span", { class: "chip warn" }, t().draft) : null;
+const statusBadge = s => s === "publie" ? null : s === "relu" ? h("span", { class: "chip" }, t().reviewed) : h("span", { class: "chip warn" }, t().draft);
 const backLink = () => h("a", { class: "back", href: "#/" }, t().back);
 
 function formatReponse(texte) {

@@ -7,7 +7,7 @@ from pathlib import Path
 
 from jsonschema import Draft202012Validator
 
-racine = Path(__file__).parent / "fiches"
+racine = Path(__file__).resolve().parent.parent / "fiches"
 schema = json.loads((racine / "schema.json").read_text(encoding="utf-8"))
 validator = Draft202012Validator(schema)
 
@@ -19,10 +19,9 @@ for fichier in sorted(racine.glob("*.json")):
     problemes = list(validator.iter_errors(fiche))
     if problemes:
         erreurs += 1
-        print(f"{fichier.name}")
+        print(f"ERREUR  {fichier.name}")
         for p in problemes:
             print(f"   - {list(p.path)}: {p.message}")
     else:
-        print(f"{fichier.name}")
-
+        print(f"OK      {fichier.name}")
 sys.exit(1 if erreurs else 0)

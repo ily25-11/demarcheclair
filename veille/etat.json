@@ -1,0 +1,17 @@
+{
+  "https://www.cnie.ma": {
+    "hash": "69645088d1c978c0ba77ca4d6b82f0fe06b07909a8ebbeba0f2f5e59c2b07a01",
+    "a_revoir": false,
+    "derniere_verif": "2026-11-15"
+  },
+  "https://www.cnie.ma/assets/pdfs/CNIE_decret_ar.pdf": {
+    "hash": "392205457cd4a3731bd973d2e7ef348d717d7ba759b6722e9853500f404f0e64",
+    "a_revoir": false,
+    "derniere_verif": "2026-11-15"
+  },
+  "https://www.cnie.ma/assets/pdfs/CNIE_dahir_ar.pdf": {
+    "hash": "9d3256859855534b20e2d2e27a1d01efc703d4700008babc592fde68932f5486",
+    "a_revoir": false,
+    "derniere_verif": "2026-11-15"
+  }
+}
