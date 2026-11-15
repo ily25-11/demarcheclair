@@ -8,9 +8,9 @@ demarcheclair/
 ├── docker-compose.yml # base de données locale
 ├── validate_fiches.py # vérifie que les fiches respectent le schéma
 ├── backend/           # API (binôme B, Fille 3)
-├── frontend/          # interface (binôme B, Fille 4)
-├── rag/               # chatbot RAG (binôme A, Fille 2)
-└── veille/            # scripts de veille / scraping (binôme A, Fille 1)
+├── frontend/          # interface 
+├── rag/               # chatbot RAG
+└── veille/            # scripts de veille / scraping 
 ```
 
 ## Démarrer
