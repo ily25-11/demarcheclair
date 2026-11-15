@@ -19,8 +19,3 @@ docker compose up -d
 pip install jsonschema
 python validate_fiches.py
 ```
-
-## Règles Git
-- `main` = stable, on ne pousse jamais dessus directement
-- une branche par personne: `fille1-contenu`, `fille2-rag`, `fille3-backend`, `fille4-frontend`
-- Pull Request relue par l'autre fille du binôme
