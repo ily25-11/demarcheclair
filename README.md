@@ -16,6 +16,9 @@ demarcheclair/
 ## Démarrer
 ```bash
 docker compose up -d
-pip install jsonschema
+pip install requirement
 python validate_fiches.py
+python -m uvicorn backend.main:app --reload
+python -m http.server 5173
 ```
+
