@@ -1,0 +1,414 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>DémarcheClair · Administration</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500..800&family=Readex+Pro:wght@300..700&display=swap" rel="stylesheet">
+<style>
+:root{--paper:#EEF1FA;--white:#fff;--blue:#2236C9;--deep:#101A5C;--saffron:#F4B22B;--green:#17855F;--red:#B42318;--muted:#55608F;--line:#D5DAF0;--r:18px;--disp:"Bricolage Grotesque","Readex Pro",system-ui,sans-serif}
+*{box-sizing:border-box}
+body{margin:0;background:var(--paper);color:var(--deep);font:400 1rem/1.6 "Readex Pro",system-ui,"Segoe UI",Tahoma,sans-serif}
+h1,h2,h3{font-family:var(--disp);line-height:1.15;margin:0}
+a{color:var(--blue)}
+:focus-visible{outline:3px solid var(--saffron);outline-offset:3px;border-radius:6px}
+.top{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:12px;max-width:1200px;margin:0 auto;padding:16px clamp(16px,4vw,40px)}
+.logo{display:flex;align-items:center;gap:14px;font:700 1.3rem var(--disp);color:var(--deep);text-decoration:none}
+.logo small{font:500 .8rem "Readex Pro",system-ui,sans-serif;background:var(--deep);color:#fff;padding:2px 10px;border-radius:99px}
+.mark{position:relative;width:22px;height:22px;background:var(--blue)}
+.mark::after{content:"";position:absolute;inset:0;border:2.5px solid var(--saffron);transform:rotate(45deg)}
+.who{display:flex;gap:10px;align-items:center;color:var(--muted);font-size:.92rem}
+.wrap{max-width:1200px;margin:0 auto;padding:8px clamp(16px,4vw,40px) 48px}
+.card{background:var(--white);border-radius:var(--r);padding:22px}
+.btn{border:0;background:var(--blue);color:#fff;padding:10px 20px;border-radius:99px;font:600 .95rem "Readex Pro",sans-serif;cursor:pointer;text-decoration:none;display:inline-block}
+.btn:hover{background:#1a2aa8}
+.btn:disabled{opacity:.5;cursor:wait}
+.btn.alt{background:var(--white);color:var(--deep);box-shadow:inset 0 0 0 2px var(--line)}
+.btn.alt:hover{background:var(--line)}
+.btn.ok{background:var(--green)}
+.btn.danger{background:var(--white);color:var(--red);box-shadow:inset 0 0 0 2px #F3C6C1}
+.btn.small{padding:5px 14px;font-size:.85rem}
+input,select,textarea{font:inherit;color:var(--deep);border:2px solid var(--line);border-radius:12px;padding:9px 14px;background:var(--white)}
+input:focus,select:focus,textarea:focus{outline:0;border-color:var(--blue)}
+label{display:block;font-weight:600;margin:14px 0 6px}
+.chip{display:inline-block;padding:2px 12px;border-radius:99px;font-size:.8rem;font-weight:600;white-space:nowrap}
+.s-brouillon{background:#E7E9F3;color:#3A4370}
+.s-relu{background:#FDEFC8;color:#7A5200}
+.s-publie{background:#DDF3EA;color:#0D6747}
+.warn{background:#FDEFC8;color:#7A5200}
+.bad{background:#FDE2DF;color:var(--red)}
+.note{padding:12px 16px;border-radius:12px;margin:12px 0}
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;margin:18px 0}
+.stats button{all:unset;cursor:pointer;background:var(--white);border-radius:var(--r);padding:16px 18px;box-shadow:inset 0 0 0 2px transparent}
+.stats button[aria-pressed=true]{box-shadow:inset 0 0 0 2px var(--blue)}
+.stats b{display:block;font:700 2rem var(--disp)}
+.stats span{color:var(--muted);font-size:.9rem}
+.tools{display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin-bottom:14px}
+.tools input{flex:1;min-width:200px}
+table{width:100%;border-collapse:collapse;background:var(--white);border-radius:var(--r);overflow:hidden}
+th,td{text-align:start;padding:12px 14px;border-bottom:1px solid var(--line);vertical-align:top}
+th{font-size:.8rem;text-transform:uppercase;letter-spacing:.04em;color:var(--muted);background:#F7F8FD}
+tbody tr{cursor:pointer}
+tbody tr:hover{background:#F7F8FD}
+td small{color:var(--muted);white-space:nowrap}
+.grid{display:grid;grid-template-columns:minmax(0,1fr) 340px;gap:24px;align-items:start}
+.side{position:sticky;top:16px;display:grid;gap:16px}
+.tabs{display:flex;gap:4px;margin:18px 0 0;border-bottom:2px solid var(--line)}
+.tabs button{border:0;background:none;font:600 .95rem "Readex Pro",system-ui,sans-serif;padding:10px 16px;cursor:pointer;color:var(--muted);border-bottom:3px solid transparent;margin-bottom:-2px}
+.tabs button[aria-selected=true]{color:var(--blue);border-color:var(--blue)}
+.pane{padding-top:18px}
+.pane h3{margin:22px 0 8px;font-size:1.1rem}
+.pane ul,.pane ol{margin:0;padding-inline-start:22px}
+.pane li{margin-bottom:6px}
+textarea.json{width:100%;min-height:480px;font:13px/1.5 ui-monospace,Consolas,monospace;tab-size:2}
+.log li{margin-bottom:10px;list-style:none;border-inline-start:3px solid var(--line);padding-inline-start:12px}
+.log{padding:0!important}
+.muted{color:var(--muted)}
+.back{display:inline-block;margin-bottom:12px;color:var(--deep);font-weight:500;text-decoration:none}
+.login{max-width:420px;margin:8vh auto}
+.login input{width:100%}
+.toast{position:fixed;bottom:20px;inset-inline-end:20px;background:var(--deep);color:#fff;padding:12px 20px;border-radius:12px;box-shadow:0 10px 30px #101A5C55;z-index:9}
+@media(max-width:900px){.grid{grid-template-columns:1fr}.side{position:static}.hide-m{display:none}}
+</style>
+</head>
+<body>
+<header class="top">
+  <a class="logo" href="#/"><span class="mark"></span>DémarcheClair <small>Admin</small></a>
+  <div class="who" id="who"></div>
+</header>
+<main class="wrap" id="app"></main>
+
+<script>
+const API = "http://127.0.0.1:8000";
+const STATUTS = { brouillon: "Brouillon", relu: "Relu", publie: "Publié" };
+const ACTIONS = {  // statut actuel -> statut visé : libellé du bouton
+  "brouillon>relu": { txt: "Marquer comme relu", cls: "ok", aide: "J’ai vérifié la fiche sur la source officielle." },
+  "relu>publie": { txt: "Publier sur le site", cls: "ok", aide: "La fiche devient visible par les usagers et le chatbot." },
+  "relu>brouillon": { txt: "Renvoyer en brouillon", cls: "danger", aide: "Commentaire obligatoire." },
+  "publie>brouillon": { txt: "Dépublier", cls: "danger", aide: "La fiche disparaît du site. Commentaire obligatoire." },
+};
+
+// ---------- Session (jeton gardé le temps de l'onglet, expire côté serveur après 8 h) ----------
+const store = {
+  get(k) { try { return sessionStorage.getItem(k) || ""; } catch { return ""; } },
+  set(k, v) { try { sessionStorage.setItem(k, v); } catch {} },
+  clear() { try { sessionStorage.clear(); } catch {} },
+};
+let jeton = store.get("jeton"), identifiant = store.get("identifiant");
+
+// ---------- Outils ----------
+function h(tag, attrs = {}, ...enfants) {
+  const el = document.createElement(tag);
+  for (const [k, v] of Object.entries(attrs || {})) {
+    if (v === false || v == null) continue;
+    if (k.startsWith("on")) el.addEventListener(k.slice(2), v);
+    else el.setAttribute(k, v === true ? "" : v);
+  }
+  for (const e of enfants.flat()) if (e != null && e !== false) el.append(e.nodeType ? e : String(e));
+  return el;
+}
+const app = document.getElementById("app");
+const show = (...els) => app.replaceChildren(...els);
+const chip = s => h("span", { class: "chip s-" + s }, STATUTS[s] || s);
+function toast(msg) {
+  const t = h("div", { class: "toast", role: "status" }, msg);
+  document.body.append(t); setTimeout(() => t.remove(), 3500);
+}
+function fraicheur(j) {
+  if (j == null) return h("span", { class: "chip bad" }, "Jamais vérifiée");
+  if (j > 90) return h("span", { class: "chip warn" }, `Vérifiée il y a ${j} j`);
+  return h("small", {}, j === 0 ? "Vérifiée aujourd’hui" : `Vérifiée il y a ${j} j`);
+}
+function messageErreur(detail) {
+  if (!detail) return "Erreur inconnue";
+  if (typeof detail === "string") return detail;
+  if (detail.erreurs) return detail.message + " :\n• " + detail.erreurs.join("\n• ");
+  if (Array.isArray(detail)) return detail.map(d => d.msg).join(", ");
+  return JSON.stringify(detail);
+}
+
+async function api(chemin, opts = {}) {
+  let r;
+  try {
+    r = await fetch(API + chemin, {
+      ...opts,
+      headers: { "Content-Type": "application/json", ...(jeton ? { Authorization: "Bearer " + jeton } : {}), ...(opts.headers || {}) },
+    });
+  } catch { throw new Error("L’API ne répond pas. Lance uvicorn puis recharge la page."); }
+  const data = await r.json().catch(() => ({}));
+  if (r.status === 401 && !opts.connexion) { finSession(); throw new Error(messageErreur(data.detail)); }
+  if (!r.ok) throw new Error(messageErreur(data.detail));
+  return data;
+}
+
+// ---------- Connexion ----------
+function ecranConnexion(message) {
+  document.getElementById("who").replaceChildren(h("a", { class: "btn alt small", href: "./index.html" }, "← Retour au site"));
+  const ident = h("input", { id: "ident", autocomplete: "username", required: true, maxlength: 60, value: identifiant });
+  const mdp = h("input", { type: "password", id: "mdp", autocomplete: "current-password", required: true });
+  const err = h("p", { class: "note bad", hidden: !message, role: "alert" }, message || "");
+  const bouton = h("button", { class: "btn", type: "submit", style: "width:100%" }, "Se connecter");
+  show(h("form", { class: "card login", onsubmit: async e => {
+      e.preventDefault();
+      bouton.disabled = true; err.hidden = true;
+      try {
+        const r = await api("/admin/login", { method: "POST", connexion: true,
+          body: JSON.stringify({ identifiant: ident.value.trim(), mot_de_passe: mdp.value }) });
+        jeton = r.jeton; identifiant = r.identifiant;
+        store.set("jeton", jeton); store.set("identifiant", identifiant);
+        location.hash = "#/"; route();
+      } catch (ex) { err.hidden = false; err.textContent = ex.message; mdp.value = ""; mdp.focus(); bouton.disabled = false; }
+    } },
+    h("h1", {}, "Espace administrateur"),
+    h("p", { class: "muted" }, "Gestion et validation des fiches avant publication. Réservé à l’équipe."),
+    err,
+    h("label", { for: "ident" }, "Identifiant"), ident,
+    h("label", { for: "mdp" }, "Mot de passe"), mdp,
+    h("p", { style: "margin-top:20px" }, bouton)));
+  (identifiant ? mdp : ident).focus();
+}
+function finSession(message = "Session expirée, reconnectez-vous.") {
+  jeton = ""; store.set("jeton", "");
+  ecranConnexion(message);
+}
+async function deconnexion() {
+  try { await api("/admin/logout", { method: "POST", connexion: true }); } catch {}
+  jeton = ""; store.set("jeton", "");
+  ecranConnexion();
+}
+
+function barreHaut() {
+  document.getElementById("who").replaceChildren(
+    h("span", {}, "Connecté·e : ", h("strong", {}, identifiant)),
+    h("a", { class: "btn alt small", href: "./index.html#/", target: "_blank" }, "Voir l’espace usager"),
+    h("button", { class: "btn alt small", onclick: deconnexion }, "Se déconnecter"));
+}
+
+// ---------- Liste des fiches ----------
+const filtres = { statut: "", langue: "", q: "", vieilles: false };
+
+async function ecranListe() {
+  show(h("p", { class: "muted" }, "Chargement…"));
+  let fiches;
+  try { fiches = await api("/admin/fiches"); }
+  catch (e) { return show(h("p", { class: "note bad" }, e.message)); }
+
+  const compte = s => fiches.filter(f => f.statut === s).length;
+  const vieilles = fiches.filter(f => (f.jours_depuis_verification ?? 999) > 90).length;
+  const corps = h("tbody");
+  const vide = h("p", { class: "muted", hidden: true }, "Aucune fiche ne correspond aux filtres.");
+
+  function dessiner() {
+    const q = filtres.q.toLowerCase();
+    const liste = fiches.filter(f =>
+      (!filtres.statut || f.statut === filtres.statut) &&
+      (!filtres.langue || f.langue === filtres.langue) &&
+      (!filtres.vieilles || (f.jours_depuis_verification ?? 999) > 90) &&
+      (!q || (f.titre + " " + f.slug).toLowerCase().includes(q)));
+    corps.replaceChildren(...liste.map(f => h("tr", {
+        tabindex: 0,
+        onclick: () => location.hash = `#/fiche/${f.slug}/${f.langue}`,
+        onkeydown: e => e.key === "Enter" && (location.hash = `#/fiche/${f.slug}/${f.langue}`) },
+      h("td", {}, h("strong", { dir: "auto" }, f.titre), h("br"), h("small", {}, f.slug)),
+      h("td", {}, f.langue.toUpperCase()),
+      h("td", {}, chip(f.statut)),
+      h("td", { class: "hide-m" }, "v" + f.version),
+      h("td", { class: "hide-m" }, fraicheur(f.jours_depuis_verification)),
+      h("td", { class: "hide-m" }, f.points_ouverts ? h("span", { class: "chip warn" }, f.points_ouverts) : "—"),
+      h("td", { class: "hide-m" }, f.signalements ? h("span", { class: "chip bad" }, f.signalements) : "—"))));
+    vide.hidden = liste.length > 0;
+    boutons.forEach(b => b.setAttribute("aria-pressed", b.dataset.s === filtres.statut && !filtres.vieilles));
+    bVieilles.setAttribute("aria-pressed", filtres.vieilles);
+  }
+
+  const carte = (s, n, txt) => h("button", { "data-s": s, onclick: () => {
+      filtres.vieilles = false; filtres.statut = filtres.statut === s ? "" : s; dessiner(); } },
+    h("b", {}, n), h("span", {}, txt));
+  const boutons = [carte("brouillon", compte("brouillon"), "Brouillons à relire"),
+                   carte("relu", compte("relu"), "Relues, à publier"),
+                   carte("publie", compte("publie"), "Publiées sur le site")];
+  const bVieilles = h("button", { onclick: () => { filtres.vieilles = !filtres.vieilles; filtres.statut = ""; dessiner(); } },
+    h("b", {}, vieilles), h("span", {}, "À revérifier (> 90 jours)"));
+
+  const recherche = h("input", { type: "search", placeholder: "Rechercher une fiche…", value: filtres.q,
+    oninput: e => { filtres.q = e.target.value; dessiner(); } });
+  const langue = h("select", { "aria-label": "Langue", onchange: e => { filtres.langue = e.target.value; dessiner(); } },
+    h("option", { value: "" }, "Toutes les langues"), h("option", { value: "fr" }, "Français"), h("option", { value: "ar" }, "Arabe"));
+  langue.value = filtres.langue;
+
+  show(
+    h("div", { class: "tools" }, h("h1", { style: "flex:1" }, "Fiches"),
+      h("a", { class: "btn", href: "#/nouvelle" }, "+ Nouvelle fiche")),
+    h("div", { class: "stats" }, ...boutons, bVieilles),
+    h("div", { class: "tools" }, recherche, langue),
+    h("table", {},
+      h("thead", {}, h("tr", {}, h("th", {}, "Fiche"), h("th", {}, "Langue"), h("th", {}, "Statut"),
+        h("th", { class: "hide-m" }, "Version"), h("th", { class: "hide-m" }, "Vérification"),
+        h("th", { class: "hide-m" }, "Points à vérifier"), h("th", { class: "hide-m" }, "Signalements"))),
+      corps),
+    vide);
+  dessiner();
+}
+
+// ---------- Aperçu lisible d'une fiche ----------
+function apercu(c) {
+  const bloc = (titre, contenu) => contenu ? [h("h3", {}, titre), contenu] : [];
+  const liste = (arr, f) => arr && arr.length ? h("ul", {}, arr.map(x => h("li", {}, f(x)))) : null;
+  return h("div", { dir: c.langue === "ar" ? "rtl" : "ltr", lang: c.langue },
+    c.resume ? h("p", {}, c.resume) : "",
+    c.points_a_verifier && c.points_a_verifier.length ? h("div", { class: "note warn" },
+      h("strong", {}, "Points à vérifier (le chatbot ne les affirme pas) :"),
+      h("ul", {}, c.points_a_verifier.map(p => h("li", {}, p)))) : "",
+    ...bloc("Conditions", liste(c.conditions, x => x)),
+    ...bloc("Pièces à fournir", liste(c.pieces, p => [h("strong", {}, p.nom), " ",
+      h("span", { class: "chip " + (p.obligatoire ? "s-publie" : "s-brouillon") }, p.obligatoire ? "obligatoire" : "selon le cas"),
+      p.detail ? h("div", { class: "muted" }, p.detail) : ""])),
+    ...bloc("Étapes", c.etapes && c.etapes.length ? h("ol", {},
+      [...c.etapes].sort((a, b) => a.ordre - b.ordre).map(e => h("li", {}, e.texte))) : null),
+    ...bloc("Coût", c.cout && (c.cout.note || c.cout.montant_dh != null) ?
+      h("p", {}, c.cout.montant_dh != null ? c.cout.montant_dh + " DH. " : "", c.cout.note || "") : null),
+    ...bloc("Délai", c.delai ? h("p", {}, c.delai) : null),
+    ...bloc("Lieu", c.lieu ? h("p", {}, c.lieu) : null),
+    ...bloc("Questions fréquentes", liste(c.faq, q => [h("strong", {}, q.question), h("div", {}, q.reponse)])),
+    ...bloc("Sources officielles", liste(c.sources, s => h("a", { href: s.url, target: "_blank", rel: "noopener" }, s.nom))));
+}
+
+// ---------- Détail d'une fiche ----------
+async function ecranFiche(slug, langue) {
+  show(h("p", { class: "muted" }, "Chargement…"));
+  let f;
+  try { f = await api(`/admin/fiches/${encodeURIComponent(slug)}/${langue}`); }
+  catch (e) { return show(h("a", { class: "back", href: "#/" }, "← Toutes les fiches"), h("p", { class: "note bad" }, e.message)); }
+  const c = f.contenu;
+
+  // Panneau de validation
+  const commentaire = h("textarea", { rows: 3, style: "width:100%", placeholder: "Commentaire (obligatoire pour un renvoi)" });
+  const erreurAction = h("p", { class: "note bad", hidden: true, style: "white-space:pre-line" });
+  async function agir(vers, bouton) {
+    const cle = f.statut + ">" + vers;
+    if (vers === "publie" && f.avertissements.length &&
+        !confirm("Attention :\n- " + f.avertissements.join("\n- ") + "\n\nPublier quand même ?")) return;
+    bouton.disabled = true; erreurAction.hidden = true;
+    try {
+      await api(`/admin/fiches/${slug}/${langue}/statut`, { method: "POST",
+        body: JSON.stringify({ statut: vers, commentaire: commentaire.value.trim() || null }) });
+      toast(ACTIONS[cle].txt + " : fait");
+      ecranFiche(slug, langue);
+    } catch (e) { erreurAction.hidden = false; erreurAction.textContent = e.message; bouton.disabled = false; }
+  }
+  const actions = f.transitions.map(vers => {
+    const a = ACTIONS[f.statut + ">" + vers];
+    const b = h("button", { class: "btn " + a.cls, style: "width:100%", onclick: () => agir(vers, b) }, a.txt);
+    return h("div", { style: "margin-top:10px" }, b, h("small", { class: "muted" }, a.aide));
+  });
+  const supprimer = f.statut === "brouillon" ? h("button", { class: "btn danger small", style: "margin-top:14px",
+    onclick: async () => {
+      if (!confirm(`Supprimer définitivement le brouillon « ${c.titre} » ?`)) return;
+      try { await api(`/admin/fiches/${slug}/${langue}`, { method: "DELETE" }); toast("Brouillon supprimé"); location.hash = "#/"; }
+      catch (e) { erreurAction.hidden = false; erreurAction.textContent = e.message; }
+    } }, "Supprimer ce brouillon") : "";
+
+  // Onglets
+  const panes = {
+    "Aperçu": () => apercu(c),
+    "Modifier": () => editeur(JSON.stringify(c, null, 2), async (contenu, bouton, err) => {
+      const r = await api(`/admin/fiches/${slug}/${langue}`, { method: "PUT", body: JSON.stringify({ contenu }) });
+      if (r.inchangee) { toast("Aucune modification"); bouton.disabled = false; return; }
+      toast(`Version ${r.version} enregistrée — la fiche repasse en brouillon`);
+      ecranFiche(slug, langue);
+    }, "Enregistrer (nouvelle version, retour en brouillon)",
+      f.statut === "publie" ? "Cette fiche est publiée : l’enregistrer la retirera du site jusqu’à une nouvelle relecture." : ""),
+    [`Journal (${f.journal.length})`]: () => f.journal.length ? h("ul", { class: "log" }, f.journal.map(j => h("li", {},
+      h("strong", {}, j.action), " ", j.de ? [chip(j.de), " → "] : "", j.vers ? chip(j.vers) : "",
+      h("div", { class: "muted" }, new Date(j.created_at).toLocaleString("fr-FR"), j.par ? " · " + j.par : ""),
+      j.commentaire ? h("div", {}, "« " + j.commentaire + " »") : ""))) : h("p", { class: "muted" }, "Aucune action enregistrée pour l’instant."),
+    [`Retours usagers (${f.retours.length})`]: () => f.retours.length ? h("ul", { class: "log" }, f.retours.map(r => h("li", {},
+      h("span", { class: "chip " + (r.utile ? "s-publie" : "bad") }, r.utile ? "Utile" : "Pas utile"), " ",
+      h("small", { class: "muted" }, new Date(r.created_at).toLocaleDateString("fr-FR")),
+      r.signalement ? h("div", { dir: "auto" }, "« " + r.signalement + " »") : ""))) : h("p", { class: "muted" }, "Aucun retour."),
+  };
+  const zone = h("div", { class: "pane" });
+  const onglets = Object.keys(panes).map((nom, i) => h("button", { role: "tab", "aria-selected": i === 0,
+    onclick: e => { onglets.forEach(o => o.setAttribute("aria-selected", o === e.currentTarget)); zone.replaceChildren(panes[nom]()); } }, nom));
+  zone.replaceChildren(panes["Aperçu"]());
+
+  show(h("a", { class: "back", href: "#/" }, "← Toutes les fiches"),
+    h("div", { class: "grid" },
+      h("div", { class: "card" },
+        h("div", { style: "display:flex;gap:8px;flex-wrap:wrap;align-items:center" }, chip(f.statut),
+          h("span", { class: "chip s-brouillon" }, "v" + f.version), h("span", { class: "chip s-brouillon" }, langue.toUpperCase()),
+          h("small", { class: "muted" }, slug)),
+        h("h1", { dir: "auto", style: "margin:12px 0 0;font-size:clamp(1.6rem,3vw,2.3rem)" }, c.titre),
+        h("div", { class: "tabs", role: "tablist" }, onglets), zone),
+      h("aside", { class: "side" },
+        h("div", { class: "card" }, h("h2", { style: "font-size:1.2rem" }, "Validation"),
+          h("p", { class: "muted", style: "margin:6px 0" }, "Brouillon → Relu → Publié"),
+          f.avertissements.map(a => h("div", { class: "note warn" }, "⚠ " + a)),
+          f.transitions.length ? [commentaire, ...actions] : "", erreurAction, supprimer),
+        h("div", { class: "card" }, h("h2", { style: "font-size:1.2rem" }, "Infos"),
+          h("p", { style: "margin:8px 0 0" }, "Dernière vérification : ", c.date_derniere_verification || "jamais"),
+          h("p", { style: "margin:4px 0 0" }, "Sources : ", (c.sources || []).length),
+          h("p", { style: "margin:4px 0 0" }, h("a", { href: `./index.html#/fiche/${slug}`, target: "_blank" }, "Voir sur le site public"))))));
+}
+
+// ---------- Éditeur JSON (modification et création) ----------
+function editeur(texte, enregistrer, libelle, alerte) {
+  const zone = h("textarea", { class: "json", spellcheck: "false", dir: "ltr" }, texte);
+  const err = h("p", { class: "note bad", hidden: true, style: "white-space:pre-line" });
+  const bouton = h("button", { class: "btn", onclick: async () => {
+    let contenu;
+    try { contenu = JSON.parse(zone.value); }
+    catch (e) { err.hidden = false; err.textContent = "JSON invalide : " + e.message; return; }
+    err.hidden = true; bouton.disabled = true;
+    try { await enregistrer(contenu, bouton, err); }
+    catch (e) { err.hidden = false; err.textContent = e.message; bouton.disabled = false; }
+  } }, libelle);
+  zone.addEventListener("keydown", e => {  // Tab insère 2 espaces
+    if (e.key !== "Tab") return;
+    e.preventDefault();
+    const { selectionStart: a, selectionEnd: b } = zone;
+    zone.setRangeText("  ", a, b, "end");
+  });
+  return h("div", {},
+    alerte ? h("p", { class: "note warn" }, alerte) : "",
+    h("p", { class: "muted", style: "margin-top:0" }, "Modifiez le JSON de la fiche. Il est vérifié avec fiches/schema.json avant l’enregistrement."),
+    zone, err, h("p", {}, bouton));
+}
+
+function ecranNouvelle() {
+  const modele = {
+    slug: "cnie-nouveau-scenario", demarche: "cnie", scenario: "faq", langue: "fr",
+    titre: "Titre de la fiche", resume: "2 à 3 phrases en langage simple.",
+    conditions: [], pieces: [{ nom: "Nom de la pièce", detail: "", obligatoire: true }],
+    etapes: [{ ordre: 1, texte: "Première étape" }],
+    cout: { montant_dh: null, note: "" }, delai: null, lieu: null,
+    sources: [{ nom: "Site officiel", url: "https://www.cnie.ma" }],
+    date_derniere_verification: null, statut: "brouillon", version: 1, points_a_verifier: [],
+  };
+  show(h("a", { class: "back", href: "#/" }, "← Toutes les fiches"),
+    h("div", { class: "card" }, h("h1", { style: "margin-bottom:12px" }, "Nouvelle fiche"),
+      h("p", { class: "note warn" }, "Le nom du fichier sera <slug>.<langue>.json. La fiche est créée en brouillon : elle devra être relue puis publiée."),
+      editeur(JSON.stringify(modele, null, 2), async contenu => {
+        const r = await api("/admin/fiches", { method: "POST", body: JSON.stringify({ contenu }) });
+        toast("Fiche créée en brouillon");
+        location.hash = `#/fiche/${r.slug}/${r.langue}`;
+      }, "Créer la fiche")));
+}
+
+// ---------- Routage ----------
+function route() {
+  if (!jeton) return ecranConnexion();
+  barreHaut();
+  const [, page, slug, langue] = location.hash.split("/");
+  if (page === "fiche" && slug && (langue === "fr" || langue === "ar")) ecranFiche(decodeURIComponent(slug), langue);
+  else if (page === "nouvelle") ecranNouvelle();
+  else ecranListe();
+  window.scrollTo(0, 0);
+}
+addEventListener("hashchange", route);
+route();
+</script>
+</body>
+</html>

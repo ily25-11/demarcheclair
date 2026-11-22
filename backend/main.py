@@ -63,6 +63,7 @@ async def lifespan(app: FastAPI):
         cur.execute("""CREATE TABLE IF NOT EXISTS chat_log (
             id SERIAL PRIMARY KEY, langue TEXT, hors_base BOOLEAN NOT NULL,
             question TEXT, created_at TIMESTAMPTZ NOT NULL DEFAULT now())""")
+        creer_tables(cur)  # journal des validations du back-office (backend/admin.py)
     yield
 
 
@@ -259,3 +260,10 @@ def chat(c: ChatIn):
     except Exception:
         traceback.print_exc()  # l'erreur détaillée s'affiche dans le terminal d'uvicorn
         raise HTTPException(status_code=502, detail="Le service de réponse est indisponible.")
+
+
+# Back-office (F10). Importé à la fin : admin.py réutilise curseur() défini plus haut.
+from backend.admin import auth_router, creer_tables, router as admin_router  # noqa: E402
+
+app.include_router(auth_router)
+app.include_router(admin_router)

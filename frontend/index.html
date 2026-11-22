@@ -115,6 +115,15 @@ details p{margin:10px 0 0;color:var(--muted);animation:rise .3s}
 .ask:focus-within{box-shadow:0 0 0 3px var(--blue)}
 .ask input{flex:1;min-width:0;border:0;background:none;font:inherit;padding:8px 16px;color:var(--deep)}
 .ask input:focus{outline:0}
+.portail h1{font-size:clamp(2.2rem,6vw,3.6rem);margin-bottom:8px}
+.portail-grille{display:grid;gap:20px;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));margin-top:28px}
+.portail-carte{display:flex;flex-direction:column;gap:12px;align-items:flex-start;padding:32px;border-radius:28px;background:var(--white);color:var(--deep);text-decoration:none;box-shadow:inset 0 0 0 2px var(--line);transition:transform .2s,box-shadow .2s}
+.portail-carte:hover{transform:translateY(-4px);box-shadow:inset 0 0 0 2px var(--blue)}
+.portail-carte.fonce{background:var(--deep);color:#fff;box-shadow:none;background-image:linear-gradient(45deg,#ffffff0b 1px,transparent 1px),linear-gradient(-45deg,#ffffff0b 1px,transparent 1px);background-size:40px 40px}
+.portail-carte h2{font-size:1.7rem}
+.portail-carte p{margin:0;flex:1}
+.portail-carte.fonce p{color:#C9D2FA}
+.portail-carte.fonce .btn{background:var(--saffron);color:var(--deep)}
 footer{text-align:center;color:var(--muted);padding:40px 16px 24px;font-size:.9rem}
 @media(max-width:860px){.fiche{grid-template-columns:1fr}.aside{position:static}}
 @media(max-width:700px){
@@ -150,6 +159,9 @@ const API = "http://127.0.0.1:8000";
 const TXT = {
   fr: {
     home: "Accueil", foot: "Vérifiez toujours sur cnie.ma.",
+    portT: "Bienvenue sur DémarcheClair", portS: "Choisissez votre espace.",
+    userT: "Espace usager", userD: "Fiches des démarches, recherche et assistant. Accès libre, sans compte.", userGo: "Entrer",
+    adminT: "Espace administrateur", adminD: "Création et validation des fiches. Identifiant et mot de passe requis.", adminGo: "Se connecter",
     heroQ: "Quelle démarche pour votre carte ?", heroSub: "Choisissez votre situation, on vous montre les pièces, le coût et le lieu.",
     first: "Première demande", renew: "Renouvellement", lost: "Perte, vol ou carte abîmée",
     pMinor: "Pour un mineur", pAbroad: "À l’étranger",
@@ -182,6 +194,9 @@ const TXT = {
   },
   ar: {
     home: "الرئيسية", foot: "تحقق دائما من cnie.ma.",
+    portT: "مرحبا بك في DémarcheClair", portS: "اختر فضاءك.",
+    userT: "فضاء المرتفق", userD: "بطاقات المساطر والبحث والمساعد. ولوج حر بدون حساب.", userGo: "دخول",
+    adminT: "فضاء الإدارة", adminD: "إنشاء البطاقات والمصادقة عليها. يتطلب اسم المستخدم وكلمة المرور.", adminGo: "تسجيل الدخول",
     heroQ: "ما المسطرة التي تحتاجها لبطاقتك؟", heroSub: "اختر حالتك لنعرض لك الوثائق والتكلفة والمكان.",
     first: "طلب لأول مرة", renew: "تجديد", lost: "ضياع أو سرقة أو إتلاف",
     pMinor: "لقاصر", pAbroad: "من الخارج",
@@ -263,6 +278,17 @@ function pickSlug(who, cas, where) {
   if (where === "abroad") return "cnie-mre-consulat";
   if (who === "minor") return "cnie-mineur";
   return { first: "cnie-premiere-demande", renew: "cnie-renouvellement", lost: "cnie-perte-vol" }[cas];
+}
+
+/* ---------- Portail : choix de l'espace (page d'entrée du site) ---------- */
+function renderPortail() {
+  const carte = (titre, texte, bouton, href, fonce) => h("a", { class: "portail-carte" + (fonce ? " fonce" : ""), href },
+    h("h2", {}, titre), h("p", {}, texte), h("span", { class: "btn" + (fonce ? "" : " alt") }, bouton));
+  app.replaceChildren(h("section", { class: "wrap portail" },
+    h("h1", {}, t().portT), h("p", { class: "lead" }, t().portS),
+    h("div", { class: "portail-grille" },
+      carte(t().userT, t().userD, t().userGo, "#/", true),
+      carte(t().adminT, t().adminD, t().adminGo, "./admin.html", false))));
 }
 
 /* ---------- Accueil ---------- */
@@ -469,6 +495,7 @@ function route() {
   const base = ["#/chat", "#/stats"].includes(location.hash) ? location.hash : "#/";
   document.querySelectorAll("nav a").forEach(a => a.classList.toggle("on", a.getAttribute("href") === base));
   window.scrollTo(0, 0);
+  if (location.hash === "" || location.hash === "#") return renderPortail();
   if (location.hash === "#/chat") return renderChat();
   if (location.hash === "#/stats") return renderStats();
   const m = location.hash.match(/^#\/fiche\/(.+)$/);
