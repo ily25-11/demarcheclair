@@ -21,7 +21,7 @@ for fichier in sorted(dossier.glob("*.json")):
         continue
     fiche = json.loads(fichier.read_text(encoding="utf-8"))
     if slugs != ["tous"] and fiche["slug"] not in slugs:
-        continue
+        continues
     trouves.add(fiche["slug"])
     if fiche["statut"] != statut:
         fiche["statut"] = statut

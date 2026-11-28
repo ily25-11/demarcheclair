@@ -19,7 +19,7 @@ a{color:var(--blue)}
 .logo small{font:500 .8rem "Readex Pro",system-ui,sans-serif;background:var(--deep);color:#fff;padding:2px 10px;border-radius:99px}
 .mark{position:relative;width:22px;height:22px;background:var(--blue)}
 .mark::after{content:"";position:absolute;inset:0;border:2.5px solid var(--saffron);transform:rotate(45deg)}
-.who{display:flex;gap:10px;align-items:center;color:var(--muted);font-size:.92rem}
+.who{display:flex;flex-wrap:wrap;gap:10px;align-items:center;color:var(--muted);font-size:.92rem}
 .wrap{max-width:1200px;margin:0 auto;padding:8px clamp(16px,4vw,40px) 48px}
 .card{background:var(--white);border-radius:var(--r);padding:22px}
 .btn{border:0;background:var(--blue);color:#fff;padding:10px 20px;border-radius:99px;font:600 .95rem "Readex Pro",sans-serif;cursor:pointer;text-decoration:none;display:inline-block}
@@ -181,6 +181,8 @@ async function deconnexion() {
 
 function barreHaut() {
   document.getElementById("who").replaceChildren(
+    h("a", { class: "btn alt small", href: "#/" }, "Fiches"),
+    h("a", { class: "btn alt small", href: "#/qualite" }, "Qualité"),
     h("span", {}, "Connecté·e : ", h("strong", {}, identifiant)),
     h("a", { class: "btn alt small", href: "./index.html#/", target: "_blank" }, "Voir l’espace usager"),
     h("button", { class: "btn alt small", onclick: deconnexion }, "Se déconnecter"));
@@ -397,12 +399,55 @@ function ecranNouvelle() {
       }, "Créer la fiche")));
 }
 
+// ---------- Qualité : ce qu'il reste à traiter ----------
+async function ecranQualite() {
+  show(h("p", { class: "muted" }, "Chargement…"));
+  let s;
+  try {
+    const r = await fetch(API + "/stats");
+    if (!r.ok) throw new Error();
+    s = await r.json();
+  } catch { return show(h("p", { class: "note bad" }, "Impossible de charger les statistiques. Vérifie qu’uvicorn tourne.")); }
+
+  const fiches = s.fiches;
+  const nb = f => fiches.filter(f).length;
+  const aRevoir = fiches.filter(f => (f.jours_depuis_verification ?? 999) > 90 || f.points_ouverts > 0 || f.statut === "brouillon");
+  const chat = s.chat || { total: 0, hors_base: 0, questions: [] };
+  const taux = chat.total ? Math.round(100 * chat.hors_base / chat.total) : 0;
+
+  const carte = (valeur, texte) => h("div", { class: "card" }, h("b", { style: "display:block;font:700 2rem var(--disp)" }, valeur), h("span", { class: "muted" }, texte));
+  const lien = f => h("a", { href: `#/fiche/${f.slug}/${f.langue}` }, h("span", { dir: "auto" }, f.titre), " (" + f.langue.toUpperCase() + ")");
+  const liste = (items, vide) => items.length ? h("ul", {}, items.map(i => h("li", {}, i))) : h("p", { class: "muted" }, vide);
+
+  show(
+    h("h1", { style: "margin-bottom:14px" }, "Qualité"),
+    h("div", { class: "stats" },
+      carte(fiches.length, "Fiches au total"),
+      carte(nb(f => f.statut === "publie"), "Publiées"),
+      carte(nb(f => (f.jours_depuis_verification ?? 999) > 90), "À revérifier (> 90 jours)"),
+      carte(fiches.reduce((a, f) => a + f.points_ouverts, 0), "Points à vérifier ouverts"),
+      carte(`${chat.hors_base} / ${chat.total}`, `Questions sans réponse (${taux} %)`)),
+    h("div", { class: "card", style: "margin-bottom:16px" }, h("h2", { style: "font-size:1.2rem;margin-bottom:8px" }, "Fiches à traiter"),
+      liste(aRevoir.map(f => [lien(f), " · ", chip(f.statut), f.points_ouverts ? ` · ${f.points_ouverts} point(s) à vérifier` : "",
+        (f.jours_depuis_verification ?? 999) > 90 ? " · à revérifier" : ""]), "Rien à traiter.")),
+    h("div", { class: "card", style: "margin-bottom:16px" }, h("h2", { style: "font-size:1.2rem;margin-bottom:8px" }, "Retours des usagers"),
+      liste(fiches.filter(f => f.pas_utile > 0).map(f => [lien(f), ` · ${f.utile} utile(s), ${f.pas_utile} pas utile(s)`]), "Aucun retour négatif."),
+      h("h3", { style: "margin:16px 0 8px" }, "Derniers signalements"),
+      liste(s.signalements.map(x => [h("strong", {}, x.titre), " : « " + x.texte + " »"]), "Aucun signalement.")),
+    h("div", { class: "card" }, h("h2", { style: "font-size:1.2rem;margin-bottom:8px" }, "Ce que les usagers cherchent sans trouver"),
+      h("h3", { style: "margin:8px 0" }, "Recherches sans résultat"),
+      liste(s.recherches.sans_resultat.map(x => `« ${x.q} » (${x.fois} fois)`), "Aucune."),
+      h("h3", { style: "margin:16px 0 8px" }, "Questions restées sans réponse du chatbot"),
+      liste(chat.questions.map(x => `« ${x.question} » (${x.fois} fois)`), "Aucune.")));
+}
+
 // ---------- Routage ----------
 function route() {
   if (!jeton) return ecranConnexion();
   barreHaut();
   const [, page, slug, langue] = location.hash.split("/");
   if (page === "fiche" && slug && (langue === "fr" || langue === "ar")) ecranFiche(decodeURIComponent(slug), langue);
+  else if (page === "qualite") ecranQualite();
   else if (page === "nouvelle") ecranNouvelle();
   else ecranListe();
   window.scrollTo(0, 0);
